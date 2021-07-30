@@ -17,7 +17,7 @@ else
 	inherit git-r3
 fi
 
-EGIT_OVERRIDE_BRANCH_ZEROTIER_ZEROTIERONE="dev"
+EGIT_BRANCH="dev"
 
 LICENSE="BSL-1.1"
 SLOT="0"
