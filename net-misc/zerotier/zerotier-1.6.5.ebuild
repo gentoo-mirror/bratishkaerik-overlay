@@ -15,7 +15,6 @@ if [[ ${PV} != 9999* ]] ; then
 else
 	EGIT_REPO_URI="https://github.com/zerotier/ZeroTierOne"
 	inherit git-r3
-	S="${WORKDIR}/${P}"
 fi
 
 LICENSE="BSL-1.1"
