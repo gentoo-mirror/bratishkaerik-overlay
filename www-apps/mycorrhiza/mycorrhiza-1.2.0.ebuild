@@ -55,7 +55,7 @@ go-module_set_globals
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup"
 HOMEPAGE="https://mycorrhiza.wiki"
 
-KEYWORDS="~amd64 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 SRC_URI="
 	https://github.com/bouncepaw/mycorrhiza/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_SUM_SRC_URI}
