@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>erik@mail.ru</email>
+	</maintainer>
+	<upstream>
+		<changelog>https://github.com/zerotier/ZeroTierOne/raw/master/RELEASE-NOTES.md</changelog>
+		<remote-id type="github">zerotier/ZeroTierOne</remote-id>
+		<bugs-to>https://github.com/zerotier/ZeroTierOne/issues</bugs-to>
+	</upstream>
+	<use>
+		<flag name="clang">Use Clang compiler instead of GCC</flag>
+	</use>
+</pkgmetadata>
