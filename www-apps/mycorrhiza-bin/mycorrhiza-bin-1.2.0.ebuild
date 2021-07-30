@@ -11,6 +11,8 @@ KEYWORDS="~amd64 ~x86"
 SRC_URI="amd64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-amd64.tar.gz )
 	x86? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-386.tar.gz )"
 
+S="${WORKDIR}"
+
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
 SLOT="0"
 DOCS=( README.md )
