@@ -16,7 +16,10 @@ DOCS=( README.md )
 
 BDEPEND=">=dev-lang/go-1.16.0"
 
-RDEPEND="dev-vcs/git"
+RDEPEND="
+	dev-vcs/git
+	!!www-apps/mycorrhiza
+"
 
 DEPEND="${RDEPEND}"
 
