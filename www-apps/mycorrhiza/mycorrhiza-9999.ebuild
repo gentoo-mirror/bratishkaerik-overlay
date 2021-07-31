@@ -18,7 +18,7 @@ BDEPEND=">=dev-lang/go-1.16.0"
 
 RDEPEND="
 	dev-vcs/git
-	!!www-apps/mycorrhiza
+	!!www-apps/mycorrhiza-bin
 "
 
 DEPEND="${RDEPEND}"
