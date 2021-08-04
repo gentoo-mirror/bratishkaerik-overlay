@@ -10,7 +10,6 @@ DESCRIPTION="A sophisticated low memory handler for Linux"
 HOMEPAGE="https://github.com/hakavlad/nohang"
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="systemd"
 
 EGIT_REPO_URI="https://github.com/hakavlad/nohang"
