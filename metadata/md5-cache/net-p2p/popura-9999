@@ -1,0 +1,15 @@
+BDEPEND=>=dev-lang/go-1.16.0 >=dev-lang/go-1.12 app-arch/unzip virtual/pkgconfig >=dev-vcs/git-1.8.2.1[curl]
+DEFINED_PHASES=compile install setup unpack
+DEPEND=acct-user/yggdrasil acct-group/yggdrasil
+DESCRIPTION=Popura: alternative Yggdrasil network client
+EAPI=7
+HOMEPAGE=https://github.com/popura-network/Popura
+INHERIT=go-module linux-info systemd git-r3
+IUSE=kernel_linux
+LICENSE=LGPL-3 MPL-2.0 MIT Apache-2.0 BSD ZLIB
+PROPERTIES=live
+RDEPEND=dev-vcs/git !!net-p2p/yggdrasil-go
+RESTRICT=strip
+SLOT=0
+_eclasses_=go-module	34c2d0a98b291ac9acda0cb54c9ffd61	toolchain-funcs	9ea1c67b6f8315fdc2568abb674519aa	multilib	4b66d835ec72e021e359bb81eacfe988	linux-info	0979a3f84b9948fbe2a553beb6b5f505	systemd	2736b403a83f194b59b767f3b344c2c1	git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da
+_md5_=7a11464d426433ebbac7b92118ebf873
