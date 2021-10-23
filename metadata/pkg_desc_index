@@ -1,5 +1,6 @@
 acct-group/yggdrasil 1: System group: yggdrasil
 acct-user/yggdrasil 1: Yggdrasil user
+app-misc/piper 0.6: GTK configuration application for libratbag
 net-misc/zerotier 1.6.6 9999: A software-based managed Ethernet switch for planet Earth
 net-p2p/popura 0.4.0 9999: Popura: alternative Yggdrasil network client
 sys-firmware/nvidia-firmware 340.108: Kernel and mesa firmware for nouveau (video accel and pgraph)
