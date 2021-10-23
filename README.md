@@ -13,7 +13,7 @@ emaint sync --all
 # What's inside the repository?
 ## Popura ポプラ: alternative Yggdrasil network client
 * Homepage: https://github.com/popura-network/Popura/
-* Created + live ebuild
+* Created
 ## Piper: GTK configuration application for libratbag
 * Homepage: https://github.com/libratbag/piper
 * Created + live ebuild
