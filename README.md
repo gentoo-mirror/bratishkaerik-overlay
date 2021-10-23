@@ -14,6 +14,9 @@ emaint sync --all
 ## Popura ポプラ: alternative Yggdrasil network client
 * Homepage: https://github.com/popura-network/Popura/
 * Created + live ebuild
+## Piper: GTK configuration application for libratbag
+* Homepage: https://github.com/libratbag/piper
+* Created
 ## ZeroTier One: a software-based managed Ethernet switch for planet Earth
 * Homepage: https://www.zerotier.com/
 * Updated + live ebuild
