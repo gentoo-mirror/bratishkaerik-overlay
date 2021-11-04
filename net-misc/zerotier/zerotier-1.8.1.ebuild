@@ -19,21 +19,17 @@ fi
 
 LICENSE="BSL-1.1"
 SLOT="0"
-IUSE="+clang cpu_flags_arm_neon"
-
-LLVM_SLOT=12
+IUSE="+clang"
 
 RDEPEND="
 	dev-libs/json-glib
 	net-libs/libnatpmp
 	net-libs/miniupnpc:=
-	clang? ( sys-devel/clang:${LLVM_SLOT} )"
+	clang? ( sys-devel/clang )"
 
 DEPEND="${RDEPEND}"
 
 DOCS=( README.md AUTHORS.md )
-
-LLVM_MAX_SLOT=12
 
 pkg_setup() {
 	llvm_pkg_setup
@@ -43,7 +39,6 @@ pkg_setup() {
 	else
 		tc-export CXX CC
 	fi
-	use cpu_flags_arm_neon || export ZT_DISABLE_NEON=1
 }
 
 src_compile() {
