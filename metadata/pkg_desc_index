@@ -1,9 +1,9 @@
 acct-group/yggdrasil 1: System group: yggdrasil
 acct-user/yggdrasil 1: Yggdrasil user
 app-misc/piper 0.6: GTK configuration application for libratbag
-net-misc/zerotier 1.6.6 9999: A software-based managed Ethernet switch for planet Earth
-net-p2p/popura 0.4.0 9999: Popura: alternative Yggdrasil network client
+net-misc/zerotier 1.8.1 9999: A software-based managed Ethernet switch for planet Earth
+net-p2p/popura 0.4.2 9999: Popura: alternative Yggdrasil network client
 sys-firmware/nvidia-firmware 340.108: Kernel and mesa firmware for nouveau (video accel and pgraph)
 sys-process/nohang 9999: A sophisticated low memory handler for Linux
-www-apps/mycorrhiza 1.5.0 9999: Git-based wiki engine written in Go using mycomarkup
+www-apps/mycorrhiza 1.6.0 9999: Git-based wiki engine written in Go using mycomarkup
 www-apps/mycorrhiza-bin 1.5.0: Git-based wiki engine written in Go using mycomarkup (pre-built package)
