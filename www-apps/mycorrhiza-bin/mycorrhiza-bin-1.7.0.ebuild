@@ -6,10 +6,9 @@ EAPI=7
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup (pre-built package)"
 HOMEPAGE="https://mycorrhiza.wiki"
 
-KEYWORDS="~amd64 ~x86 ~arm64"
+KEYWORDS="~amd64 ~arm64"
 
 SRC_URI="amd64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-amd64.tar.gz )
-	x86? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-386.tar.gz )
   arm64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-arm64.tar.gz )"
 
 S="${WORKDIR}"
