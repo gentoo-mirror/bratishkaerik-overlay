@@ -20,9 +20,6 @@ emaint sync --all
 ## ZeroTier One: a software-based managed Ethernet switch for planet Earth
 * Homepage: https://www.zerotier.com/
 * Updated + live ebuild
-## nvidia-firmware: for nouveau
-* Homepage: https://nouveau.freedesktop.org/wiki/VideoAcceleration/
-* Updated
 ## Mycorrhiza: git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
 * Created + live ebuild + binary package (from upstream)
