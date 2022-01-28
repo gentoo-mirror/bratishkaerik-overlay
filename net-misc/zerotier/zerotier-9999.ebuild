@@ -14,10 +14,9 @@ if [[ ${PV} != 9999* ]] ; then
 	S="${WORKDIR}/ZeroTierOne-${PV}"
 else
 	EGIT_REPO_URI="https://github.com/zerotier/ZeroTierOne"
+        EGIT_BRANCH="dev"
 	inherit git-r3
 fi
-
-EGIT_BRANCH="dev"
 
 LICENSE="BSL-1.1"
 SLOT="0"
@@ -38,8 +37,6 @@ pkg_setup() {
 	if use clang && ! tc-is-clang ; then
 		export CC=${CHOST}-clang
 		export CXX=${CHOST}-clang++
-		append-cflags -fPIE
-		append-cppflags -fPIE
 	else
 		tc-export CXX CC
 	fi
