@@ -14,6 +14,7 @@ if [[ ${PV} != 9999* ]] ; then
 	S="${WORKDIR}/ZeroTierOne-${PV}"
 else
 	EGIT_REPO_URI="https://github.com/zerotier/ZeroTierOne"
+        EGIT_BRANCH="dev"
 	inherit git-r3
 fi
 
