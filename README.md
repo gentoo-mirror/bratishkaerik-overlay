@@ -16,16 +16,10 @@ emaint sync --all
 * Created + live ebuild
 ## Piper: GTK configuration application for libratbag
 * Homepage: https://github.com/libratbag/piper
-* Created
+* Updated
 ## ZeroTier One: a software-based managed Ethernet switch for planet Earth
 * Homepage: https://www.zerotier.com/
 * Updated + live ebuild
-## nvidia-firmware: for nouveau
-* Homepage: https://nouveau.freedesktop.org/wiki/VideoAcceleration/
-* Updated
-## Nohang: a sophisticated low memory handler for Linux
-* Homepage: https://github.com/hakavlad/nohang
-* Copy-pasted live ebuild
 ## Mycorrhiza: git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
-* Created + live ebuild + binary package
+* Created + live ebuild + binary package (from upstream)
