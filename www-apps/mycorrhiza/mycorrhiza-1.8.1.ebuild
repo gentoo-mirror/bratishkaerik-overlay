@@ -6,14 +6,10 @@ EAPI=7
 inherit go-module
 
 EGO_SUM=(
-        "github.com/BurntSushi/toml v0.3.1"
-        "github.com/BurntSushi/toml v0.3.1/go.mod"
         "github.com/andybalholm/brotli v1.0.2/go.mod"
         "github.com/andybalholm/brotli v1.0.3/go.mod"
-        "github.com/bouncepaw/mycomarkup/v3 v3.4.1"
-        "github.com/bouncepaw/mycomarkup/v3 v3.4.1/go.mod"
-        "github.com/chekoopa/go-localize v0.4.0"
-        "github.com/chekoopa/go-localize v0.4.0/go.mod"
+        "github.com/bouncepaw/mycomarkup/v3 v3.6.1"
+        "github.com/bouncepaw/mycomarkup/v3 v3.6.1/go.mod"
         "github.com/davecgh/go-spew v1.1.0"
         "github.com/davecgh/go-spew v1.1.0/go.mod"
         "github.com/go-ini/ini v1.63.2"
@@ -61,8 +57,6 @@ EGO_SUM=(
         "golang.org/x/text v0.3.7/go.mod"
         "golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod"
         "gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod"
-        "gopkg.in/yaml.v2 v2.2.7"
-        "gopkg.in/yaml.v2 v2.2.7/go.mod"
         "gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c"
         "gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod"
         )
@@ -71,7 +65,7 @@ go-module_set_globals
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup"
 HOMEPAGE="https://mycorrhiza.wiki"
 
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm64 ~x86"
 SRC_URI="
 	https://github.com/bouncepaw/mycorrhiza/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_SUM_SRC_URI}
