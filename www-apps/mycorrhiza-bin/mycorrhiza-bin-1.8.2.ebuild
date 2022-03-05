@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup (pre-built package)"
 HOMEPAGE="https://mycorrhiza.wiki"
