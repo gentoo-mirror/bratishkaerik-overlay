@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -14,7 +14,7 @@ if [[ ${PV} != 9999* ]] ; then
 	S="${WORKDIR}/ZeroTierOne-${PV}"
 else
 	EGIT_REPO_URI="https://github.com/zerotier/ZeroTierOne"
-        EGIT_BRANCH="dev"
+	EGIT_BRANCH="dev"
 	inherit git-r3
 fi
 
@@ -25,22 +25,15 @@ IUSE="+clang"
 RDEPEND="
 	dev-libs/json-glib
 	net-libs/libnatpmp
-	net-libs/miniupnpc:=
+	net-libs/miniupnpc:="
+
+BDEPEND="
+	dev-lang/rust
 	clang? ( sys-devel/clang )"
 
 DEPEND="${RDEPEND}"
 
 DOCS=( README.md AUTHORS.md )
-
-pkg_setup() {
-	llvm_pkg_setup
-	if use clang && ! tc-is-clang ; then
-		export CC=${CHOST}-clang
-		export CXX=${CHOST}-clang++
-	else
-		tc-export CXX CC
-	fi
-}
 
 src_compile() {
 	append-ldflags -Wl,-z,noexecstack

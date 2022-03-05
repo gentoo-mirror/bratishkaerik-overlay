@@ -19,7 +19,7 @@ DOCS=( README.md )
 RESTRICT="network-sandbox"
 
 src_compile() {
-        zig build -Dbootstrap || die
-        ./zig-out/bin/zigmod ci || die
+	zig build -Dbootstrap || die
+	./zig-out/bin/zigmod ci || die
 	zig build || die
 }
