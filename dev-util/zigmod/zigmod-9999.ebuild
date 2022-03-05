@@ -16,11 +16,10 @@ RDEPEND=">=dev-lang/zig-9999"
 
 DOCS=( README.md )
 
-src_prepare() {
-	zig build -Dbootstrap || die
-	./zig-out/bin/zigmod ci || die
-}
+RESTRICT="network-sandbox"
 
 src_compile() {
+        zig build -Dbootstrap || die
+        ./zig-out/bin/zigmod ci || die
 	zig build || die
 }
