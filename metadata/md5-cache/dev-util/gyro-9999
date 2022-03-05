@@ -1,0 +1,12 @@
+BDEPEND=>=dev-vcs/git-1.8.2.1[curl] >=dev-lang/zig-9999
+DEFINED_PHASES=compile install test unpack
+DESCRIPTION=A Zig package manager with an index, build runner, and build dependencies.
+EAPI=8
+HOMEPAGE=https://astrolabe.pm/
+INHERIT=git-r3 zig
+LICENSE=MIT
+PROPERTIES=live
+RDEPEND=>=dev-lang/zig-9999
+SLOT=0
+_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	zig	2a455512a74abb49abfb79081746f7eb
+_md5_=b9928d153f82dbdd9d80d0c793f2a992

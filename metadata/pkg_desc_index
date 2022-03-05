@@ -1,7 +1,10 @@
 acct-group/yggdrasil 1: System group: yggdrasil
 acct-user/yggdrasil 1: Yggdrasil user
 app-misc/piper 0.6: GTK configuration application for libratbag
+dev-lang/zig 0.9.1 9999: A robust, optimal, and maintainable programming language
+dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
+dev-util/zls 9999: Zig LSP implementation + Zig Language Server
 net-misc/zerotier 1.8.4 9999: A software-based managed Ethernet switch for planet Earth
 net-p2p/popura 0.4.3 9999: Popura: alternative Yggdrasil network client
-www-apps/mycorrhiza 1.8.1 9999: Git-based wiki engine written in Go using mycomarkup
-www-apps/mycorrhiza-bin 1.8.1: Git-based wiki engine written in Go using mycomarkup (pre-built package)
+www-apps/mycorrhiza 1.8.2 9999: Git-based wiki engine written in Go using mycomarkup
+www-apps/mycorrhiza-bin 1.8.2: Git-based wiki engine written in Go using mycomarkup (pre-built package)
