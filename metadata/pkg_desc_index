@@ -5,7 +5,6 @@ dev-lang/zig 0.9.1 9999: A robust, optimal, and maintainable programming languag
 dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
 dev-util/zigmod 9999: A package manager for the Zig programming language.
 dev-util/zls 9999: Zig LSP implementation + Zig Language Server
-net-misc/zerotier 1.8.5 9999: A software-based managed Ethernet switch for planet Earth
 net-p2p/popura 0.4.3 9999: Popura: alternative Yggdrasil network client
 www-apps/mycorrhiza 1.8.2 9999: Git-based wiki engine written in Go using mycomarkup
 www-apps/mycorrhiza-bin 1.8.2: Git-based wiki engine written in Go using mycomarkup (pre-built package)
