@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -128,8 +128,8 @@ DESCRIPTION="Popura: alternative Yggdrasil network client"
 HOMEPAGE="https://github.com/popura-network/Popura/"
 
 SRC_URI="
-        https://github.com/popura-network/Popura/archive/v${PV}+popura1.tar.gz -> ${P}+popura1.tar.gz
-        ${EGO_SUM_SRC_URI}
+	https://github.com/popura-network/Popura/archive/v${PV}+popura1.tar.gz -> ${P}+popura1.tar.gz
+	${EGO_SUM_SRC_URI}
 "
 
 S="${WORKDIR}/Popura-${PV}-popura1"
@@ -145,8 +145,8 @@ DEPEND="
 "
 
 RDEPEND="
-        dev-vcs/git
-        !!net-p2p/yggdrasil-go
+	dev-vcs/git
+	!!net-p2p/yggdrasil-go
 "
 
 BDEPEND=">=dev-lang/go-1.16.0"
@@ -162,14 +162,14 @@ pkg_setup() {
 }
 
 src_compile() {
-        PKGNAME="${PN}" PKGVER="${PV}+popura1" \
-        GOFLAGS="-trimpath -buildmode=pie -mod=readonly" \
-        ./build -l "-linkmode external -extldflags \"${LDFLAGS}\""
+	PKGNAME="${PN}" PKGVER="${PV}+popura1" \
+	GOFLAGS="-trimpath -buildmode=pie -mod=readonly" \
+	./build -l "-linkmode external -extldflags \"${LDFLAGS}\""
 }
 
 src_install() {
 	dobin {yggdrasil,yggdrasilctl}
 	systemd_dounit "contrib/systemd/yggdrasil.service"
-        systemd_dounit "contrib/systemd/yggdrasil-default-config.service"
+	systemd_dounit "contrib/systemd/yggdrasil-default-config.service"
 	doinitd "contrib/openrc/yggdrasil"
 }

@@ -17,6 +17,6 @@ RDEPEND=">=dev-lang/zig-9999"
 DOCS=( README.md )
 
 pkg_postinst() {
-        elog "Quick start: /usr/bin/zls config"
+	elog "Quick start: /usr/bin/zls config"
 	elog "It will configure ZLS"
 }
