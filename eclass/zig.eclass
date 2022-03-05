@@ -14,14 +14,14 @@ BDEPEND=">=dev-lang/zig-9999"
 # @DESCRIPTION:
 # Calls zig build to compile a zig project.
 zig_src_compile() {
-	zig build ${ZIGFLAGS} || die "build failed"
+	zig build ${ZIGFLAGS} --verbose || die "build failed"
 }
 
 # @FUNCTION: zig-src_test
 # @DESCRIPTION:
 # Calls zig build to test a zig project.
 zig_src_test() {
-        zig build test || die "test failed"
+        zig build test --verbose || die "test failed"
 }
 
 # @FUNCTION: zig-src_install
@@ -30,7 +30,7 @@ zig_src_test() {
 zig_src_install() {
         debug-print-function ${FUNCNAME} "$@"
 
-        DESTDIR="${D}" zig build install --prefix "/usr"
+        DESTDIR="${D}" zig build install --prefix "/usr" --verbose
         echo "$@" >&2
         "$@" || die "install failed"
 }
