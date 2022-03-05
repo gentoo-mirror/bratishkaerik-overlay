@@ -29,7 +29,7 @@ RDEPEND="
 
 BDEPEND="
 	dev-lang/rust
-        clang? ( sys-devel/clang )"
+	clang? ( sys-devel/clang )"
 
 DEPEND="${RDEPEND}"
 
