@@ -25,28 +25,21 @@ IUSE="+clang"
 RDEPEND="
 	dev-libs/json-glib
 	net-libs/libnatpmp
-	net-libs/miniupnpc:=
-	clang? ( sys-devel/clang )"
+	net-libs/miniupnpc:="
+
+BDEPEND="
+	dev-lang/rust
+        clang? ( sys-devel/clang )"
 
 DEPEND="${RDEPEND}"
 
 DOCS=( README.md AUTHORS.md )
 
-pkg_setup() {
-	llvm_pkg_setup
-	if use clang && ! tc-is-clang ; then
-		export CC=${CHOST}-clang
-		export CXX=${CHOST}-clang++
-	else
-		tc-export CXX CC
-	fi
-}
-
 src_compile() {
 	append-ldflags -Wl,-z,noexecstack
 	append-cflags -fPIE
 	append-cxxflags -fPIE
-	emake CXX="${CXX}" STRIP=: one
+	emake STRIP=: one
 }
 
 src_test() {
