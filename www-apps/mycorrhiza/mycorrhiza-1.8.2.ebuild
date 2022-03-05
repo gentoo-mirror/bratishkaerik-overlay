@@ -8,8 +8,8 @@ inherit go-module
 EGO_SUM=(
         "github.com/andybalholm/brotli v1.0.2/go.mod"
         "github.com/andybalholm/brotli v1.0.3/go.mod"
-        "github.com/bouncepaw/mycomarkup/v3 v3.6.1"
-        "github.com/bouncepaw/mycomarkup/v3 v3.6.1/go.mod"
+        "github.com/bouncepaw/mycomarkup/v3 v3.6.2"
+        "github.com/bouncepaw/mycomarkup/v3 v3.6.2/go.mod"
         "github.com/davecgh/go-spew v1.1.0"
         "github.com/davecgh/go-spew v1.1.0/go.mod"
         "github.com/go-ini/ini v1.63.2"
@@ -65,7 +65,7 @@ go-module_set_globals
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup"
 HOMEPAGE="https://mycorrhiza.wiki"
 
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="~amd64 ~x86"
 SRC_URI="
 	https://github.com/bouncepaw/mycorrhiza/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_SUM_SRC_URI}
