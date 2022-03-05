@@ -8,5 +8,5 @@ LICENSE=MIT
 PROPERTIES=live
 RDEPEND=>=dev-lang/zig-9999
 SLOT=0
-_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	zig	2a455512a74abb49abfb79081746f7eb
+_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	zig	965a99712a172523898d8559e48f7b57
 _md5_=77b6af9d0a5577cf387d26c0617d8b0a

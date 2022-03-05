@@ -2,7 +2,7 @@ BDEPEND=>=dev-lang/go-1.16.0 >=dev-lang/go-1.16 app-arch/unzip >=dev-vcs/git-1.8
 DEFINED_PHASES=compile install postinst unpack
 DEPEND=dev-vcs/git !!www-apps/mycorrhiza-bin
 DESCRIPTION=Git-based wiki engine written in Go using mycomarkup
-EAPI=7
+EAPI=8
 HOMEPAGE=https://mycorrhiza.wiki
 INHERIT=go-module git-r3
 LICENSE=AGPL-3 MIT Apache-2.0 BSD BSD-2
@@ -11,4 +11,4 @@ RDEPEND=dev-vcs/git !!www-apps/mycorrhiza-bin
 RESTRICT=strip
 SLOT=0
 _eclasses_=go-module	fedd31a4ac0c90b47cab73a0daaeb721	git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da
-_md5_=329a8f2d4fbd9d8b5baef5d0003c65ea
+_md5_=76c6a4ec26c82cf20ee32b6ba26d7311
