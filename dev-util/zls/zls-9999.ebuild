@@ -12,6 +12,8 @@ DESCRIPTION="Zig LSP implementation + Zig Language Server"
 LICENSE="MIT"
 SLOT="0"
 
+RDEPEND=">=dev-lang/zig-9999"
+
 DOCS=( README.md )
 
 pkg_postinst() {
