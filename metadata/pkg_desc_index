@@ -7,6 +7,7 @@ dev-util/gyro 9999: A Zig package manager with an index, build runner, and build
 dev-util/zigmod 9999: A package manager for the Zig programming language.
 dev-util/zigup 9999: Download and manage zig compilers.
 dev-util/zls 9999: Zig LSP implementation + Zig Language Server
+games-arcade/pacman_zig 9999: Simple Pacman clone written in Zig.
 net-p2p/popura 0.4.3 9999: Popura: alternative Yggdrasil network client
 sys-fs/ncdu 2.1: NCurses Disk Usage
 www-apps/mycorrhiza 1.8.2 9999: Git-based wiki engine written in Go using mycomarkup
