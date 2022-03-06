@@ -1,4 +1,4 @@
-BDEPEND=>=dev-vcs/git-1.8.2.1[curl] >=dev-lang/zig-9999
+BDEPEND=>=dev-lang/zig-9999 >=dev-vcs/git-1.8.2.1[curl]
 DEFINED_PHASES=compile install test unpack
 DESCRIPTION=A package manager for the Zig programming language.
 EAPI=8
@@ -9,5 +9,5 @@ PROPERTIES=live
 RDEPEND=>=dev-lang/zig-9999
 RESTRICT=network-sandbox
 SLOT=0
-_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	zig	965a99712a172523898d8559e48f7b57
-_md5_=559d5c11a7f444094c8351ddc540e3f4
+_eclasses_=git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da	toolchain-funcs	badd6e329e1f3e6bee99b35bf8763ce8	multilib	de4beb52bfa93c4c5d96792a6b5e1784	flag-o-matic	a500d7cc40da3de38c361e889153bdf7	zig	ccfae7d7874bb4f925915eeefe630e35
+_md5_=53f582935266b710f150b855b3ba2c67

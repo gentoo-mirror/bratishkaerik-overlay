@@ -11,4 +11,4 @@ RDEPEND=dev-vcs/git !!www-apps/mycorrhiza-bin
 RESTRICT=strip
 SLOT=0
 _eclasses_=go-module	fedd31a4ac0c90b47cab73a0daaeb721	git-r3	cc875b0c1e9b3bdac1af0f82f3ba29da
-_md5_=49a18100549b08c7b72f799b7922f136
+_md5_=2d6e45d0620e4a2895bf626faead9a7c
