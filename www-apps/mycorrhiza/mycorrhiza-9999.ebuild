@@ -39,8 +39,8 @@ src_install() {
 pkg_postinst() {
 	elog "Quick start: /usr/bin/mycorrhiza /your/wiki/directory"
 	elog
-        elog "It will initialize a Git repository, set useful default settings"
-        elog "And run a server on http://localhost:1737"
+	elog "It will initialize a Git repository, set useful default settings"
+	elog "And run a server on http://localhost:1737"
 	elog "More information here: https://mycorrhiza.wiki/"
 	elog "Also your wiki has built-in documentation :)"
 	elog "You can view this documentation at http://localhost:1737/help"
