@@ -12,7 +12,8 @@ DESCRIPTION="A package manager for the Zig programming language."
 LICENSE="MIT"
 SLOT="0"
 
-RDEPEND=">=dev-lang/zig-9999"
+BDEPEND=">=dev-lang/zig-9999"
+RDEPEND="${BDEPEND}"
 
 DOCS=( README.md )
 
@@ -21,5 +22,5 @@ RESTRICT="network-sandbox"
 src_compile() {
 	zig build -Dbootstrap || die
 	./zig-out/bin/zigmod ci || die
-	zig build || die
+	zig_src_compile_no_release_mode_choice
 }

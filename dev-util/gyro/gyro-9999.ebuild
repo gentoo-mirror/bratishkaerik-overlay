@@ -12,6 +12,7 @@ DESCRIPTION="A Zig package manager with an index, build runner, and build depend
 LICENSE="MIT"
 SLOT="0"
 
-RDEPEND=">=dev-lang/zig-9999"
+BDEPEND=">=dev-lang/zig-9999"
+RDEPEND="${BDEPEND}"
 
 DOCS=( README.md )
