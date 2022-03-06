@@ -4,9 +4,15 @@
 # @ECLASS: zig.eclass
 # @AUTHOR:
 # BratishkaErik <bratishkaerik@getgoogleoff.me>
+# @SUPPORTED_EAPIS: 7 8
 # @MAINTAINER:
 # BratishkaErik <bratishkaerik@getgoogleoff.me>
 # @BLURB: common functions for zig builds
+
+case ${EAPI} in
+	7|8) ;;
+	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
+esac
 
 inherit flag-o-matic
 
