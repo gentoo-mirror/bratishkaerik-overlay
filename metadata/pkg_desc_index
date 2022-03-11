@@ -1,6 +1,5 @@
 acct-group/yggdrasil 1: System group: yggdrasil
 acct-user/yggdrasil 1: Yggdrasil user
-app-misc/piper 0.6: GTK configuration application for libratbag
 dev-db/tigerbeetle 9999: A distributed financial accounting database.
 dev-lang/zig 9999: A robust, optimal, and maintainable programming language
 dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
