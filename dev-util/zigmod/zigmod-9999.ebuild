@@ -6,16 +6,16 @@ EAPI=8
 inherit git-r3 zig
 
 EGIT_REPO_URI="https://github.com/nektro/zigmod"
+
 HOMEPAGE="https://aquila.red/"
 DESCRIPTION="A package manager for the Zig programming language."
+DOCS=( README.md )
 
 LICENSE="MIT"
 SLOT="0"
 
 BDEPEND=">=dev-lang/zig-9999"
 RDEPEND="${BDEPEND}"
-
-DOCS=( README.md )
 
 RESTRICT="network-sandbox"
 

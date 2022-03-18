@@ -6,16 +6,16 @@ EAPI=8
 inherit git-r3 zig
 
 EGIT_REPO_URI="https://github.com/zigtools/zls"
+
 HOMEPAGE="https://github.com/zigtools/zls"
 DESCRIPTION="Zig LSP implementation + Zig Language Server"
+DOCS=( README.md )
 
 LICENSE="MIT"
 SLOT="0"
 
 BDEPEND=">=dev-lang/zig-9999"
 RDEPEND="${BDEPEND}"
-
-DOCS=( README.md )
 
 pkg_postinst() {
 	elog "Quick start: /usr/bin/zls config"
