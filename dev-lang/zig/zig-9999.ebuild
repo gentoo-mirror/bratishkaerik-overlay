@@ -6,8 +6,8 @@ EAPI=8
 LLVM_MAX_SLOT=13
 inherit cmake llvm
 
-DESCRIPTION="A robust, optimal, and maintainable programming language"
 HOMEPAGE="https://ziglang.org/"
+DESCRIPTION="A robust, optimal, and maintainable programming language"
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/ziglang/zig.git"
 	inherit git-r3

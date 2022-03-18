@@ -5,10 +5,11 @@ EAPI=8
 
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup (pre-built package)"
 HOMEPAGE="https://mycorrhiza.wiki"
+DOCS=( README.md )
 
 KEYWORDS="~amd64 ~x86"
-
-SRC_URI="amd64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-amd64.tar.gz )
+SRC_URI="
+	amd64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-amd64.tar.gz )
 	x86? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-386.tar.gz )
 "
 
@@ -16,7 +17,6 @@ S="${WORKDIR}"
 
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
 SLOT="0"
-DOCS=( README.md )
 
 RDEPEND="
 	dev-vcs/git

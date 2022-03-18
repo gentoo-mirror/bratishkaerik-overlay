@@ -6,8 +6,10 @@ EAPI=8
 inherit git-r3 zig
 
 EGIT_REPO_URI="https://github.com/floooh/pacman.zig"
+
 HOMEPAGE="https://github.com/floooh/pacman.zig"
 DESCRIPTION="Simple Pacman clone written in Zig."
+DOCS=( README.md )
 
 LICENSE="MIT"
 SLOT="0"
@@ -19,5 +21,3 @@ BDEPEND="
 	x11-libs/libXcursor
 	media-libs/libglvnd[X(+)]
 	media-libs/alsa-lib"
-
-DOCS=( README.md )

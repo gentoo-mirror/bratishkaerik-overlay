@@ -9,10 +9,10 @@ EGIT_REPO_URI="https://github.com/bouncepaw/mycorrhiza"
 
 DESCRIPTION="Git-based wiki engine written in Go using mycomarkup"
 HOMEPAGE="https://mycorrhiza.wiki"
+DOCS=( README.md )
 
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
 SLOT="0"
-DOCS=( README.md )
 
 BDEPEND=">=dev-lang/go-1.16.0"
 

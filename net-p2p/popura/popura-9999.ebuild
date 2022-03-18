@@ -9,11 +9,11 @@ EGIT_REPO_URI="https://github.com/popura-network/Popura"
 
 DESCRIPTION="Popura: alternative Yggdrasil network client"
 HOMEPAGE="https://github.com/popura-network/Popura"
+DOCS=( README.md )
 
 LICENSE="LGPL-3 MPL-2.0 MIT Apache-2.0 BSD ZLIB"
 SLOT="0"
 KEYWORDS=""
-DOCS=( README.md )
 
 DEPEND="
 	acct-user/yggdrasil

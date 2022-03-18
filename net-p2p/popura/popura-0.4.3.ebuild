@@ -7,17 +7,18 @@ inherit go-module linux-info systemd
 
 DESCRIPTION="Popura: alternative Yggdrasil network client"
 HOMEPAGE="https://github.com/popura-network/Popura/"
+DOCS=( README.md )
 
-SRC_URI="https://github.com/popura-network/Popura/archive/v${PV}+popura1.tar.gz -> ${P}+popura1.tar.gz
-https://github.com/BratishkaErik/distfiles/raw/master/${P}+popura1-deps.tar.bz2
+KEYWORDS="~amd64"
+SRC_URI="
+	https://github.com/popura-network/Popura/archive/v${PV}+popura1.tar.gz -> ${P}+popura1.tar.gz
+	https://github.com/BratishkaErik/distfiles/raw/master/${P}+popura1-deps.tar.bz2
 "
 
 S="${WORKDIR}/Popura-${PV}-popura1"
 
 LICENSE="LGPL-3 MPL-2.0 MIT Apache-2.0 BSD ZLIB"
 SLOT="0"
-KEYWORDS="~amd64"
-DOCS=( README.md )
 
 DEPEND="
 	acct-user/yggdrasil
