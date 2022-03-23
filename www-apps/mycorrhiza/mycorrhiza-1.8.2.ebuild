@@ -12,7 +12,7 @@ DOCS=( README.md )
 KEYWORDS="~amd64 ~x86"
 SRC_URI="
 	https://github.com/bouncepaw/mycorrhiza/archive/v${PV}.tar.gz -> ${P}.tar.gz
-	https://github.com/BratishkaErik/distfiles/raw/master/${P}-deps.tar.bz2
+	https://gitea.minecast.xyz/BratishkaErik/distfiles/media/branch/master/${P}-deps.tar.bz2
 "
 
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
