@@ -17,7 +17,7 @@ emaint sync -r bratishkaerik-overlay
 ## Piper: GTK configuration application for libratbag
 * Homepage: https://github.com/libratbag/piper
 * Updated
-## Mycorrhiza: git-based wiki engine written in Go using mycomarkup
+## Mycorrhiza: Git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
 * Created + live ebuild + binary package (from upstream)
 ## Gyro: A Zig package manager with an index, build runner, and build dependencies.
@@ -28,4 +28,16 @@ emaint sync -r bratishkaerik-overlay
 * Created (live ebuild)
 ## zls: Zig LSP implementation + Zig Language Server
 * Homepage: https://github.com/zigtools/zls
+* Created (live ebuild)
+## ncdu: NCurses Disk Usage
+* Homepage: https://dev.yorhel.nl/ncdu/
+* Updated
+## pacman.zig: Simple Pacman clone written in Zig
+* Homepage: https://github.com/floooh/pacman.zig
+* Created (live ebuild)
+## TigerBeetle: A distributed financial accounting database.
+* Homepage: https://www.tigerbeetle.com/
+* Created (live ebuild)
+## zigup: Download and manage zig compilers
+* Homepage: https://github.com/marler8997/zigup
 * Created (live ebuild)
