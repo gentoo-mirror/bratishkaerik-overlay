@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<!-- maintainer-needed -->
+	<upstream>
+		<remote-id type="github">ziglang/zig</remote-id>
+		<bugs-to>https://github.com/ziglang/zig/issues</bugs-to>
+		<doc lang="en">https://ziglang.org/documentation/master/</doc>
+	</upstream>
+</pkgmetadata>

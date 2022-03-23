@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<!-- maintainer-needed -->
+	<longdescription>
+		As the name already suggests, ncdu is an NCurses version of the famous old 'du'
+		unix command. It provides a fast and easy interface to your harddrive. Where is
+		your disk space going? Why is your home directory that large? ncdu can answer
+		those questions for you in just a matter of seconds!
+	</longdescription>
+	<upstream>
+		<bugs-to>https://code.blicky.net/yorhel/ncdu/issues</bugs-to>
+		<doc lang="en">https://dev.yorhel.nl/doc/ncdu2</doc>
+	</upstream>
+</pkgmetadata>
