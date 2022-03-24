@@ -7,7 +7,7 @@ DESCRIPTION="Git-based wiki engine written in Go using mycomarkup (pre-built pac
 HOMEPAGE="https://mycorrhiza.wiki"
 DOCS=( README.md )
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="-* ~amd64 ~x86"
 SRC_URI="
 	amd64? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-amd64.tar.gz )
 	x86? ( https://github.com/bouncepaw/mycorrhiza/releases/download/v${PV}/mycorrhiza-v${PV}-linux-386.tar.gz )
