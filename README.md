@@ -11,12 +11,6 @@ emaint sync -r bratishkaerik-overlay
 ```
 
 # What's inside the repository?
-## Popura ポプラ: alternative Yggdrasil network client
-* Homepage: https://github.com/popura-network/Popura/
-* Created + live ebuild
-## Piper: GTK configuration application for libratbag
-* Homepage: https://github.com/libratbag/piper
-* Updated
 ## Mycorrhiza: Git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
 * Created + live ebuild + binary package (from upstream)
