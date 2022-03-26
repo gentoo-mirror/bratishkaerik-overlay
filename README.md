@@ -11,9 +11,6 @@ emaint sync -r bratishkaerik-overlay
 ```
 
 # What's inside the repository?
-## Piper: GTK configuration application for libratbag
-* Homepage: https://github.com/libratbag/piper
-* Updated
 ## Mycorrhiza: Git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
 * Created + live ebuild + binary package (from upstream)
