@@ -4,16 +4,16 @@
 EAPI=8
 
 LLVM_MAX_SLOT=13
-inherit cmake llvm
+inherit cmake llvm check-reqs
 
+DESCRIPTION="A robust, optimal, and maintainable programming language"
 HOMEPAGE="https://ziglang.org/"
-DESCRIPTION="Programming language for maintaining robust, optimal, and reusable software"
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/ziglang/zig.git"
 	inherit git-r3
 else
 	SRC_URI="https://github.com/ziglang/zig/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS=""
+	KEYWORDS="~amd64 ~arm ~arm64"
 fi
 
 LICENSE="MIT"
@@ -44,6 +44,14 @@ llvm_check_deps() {
 	has_version "sys-devel/clang:${LLVM_SLOT}"
 }
 
+# see https://github.com/ziglang/zig/wiki/Troubleshooting-Build-Issues#high-memory-requirements
+CHECKREQS_MEMORY="10G"
+
+pkg_setup() {
+	llvm_pkg_setup
+	check-reqs_pkg_setup
+}
+
 src_configure() {
 	local mycmakeargs=(
 		-DZIG_USE_CCACHE=OFF
@@ -53,31 +61,27 @@ src_configure() {
 	cmake_src_configure
 }
 
-src_compile() {
-	cmake_src_compile
-}
-
 src_test() {
 	cd "${BUILD_DIR}" || die
 	./zig build test || die
 }
 
 src_install() {
-	cmake_src_install
+        cmake_src_install
 
-	# install the @zig-rebuild set for Portage
-	insinto /usr/share/portage/config/sets
-	newins "${FILESDIR}"/zig-sets.conf zig.conf
+        # install the @zig-rebuild set for Portage
+        insinto /usr/share/portage/config/sets
+        newins "${FILESDIR}"/zig-sets.conf zig.conf
 }
 
 pkg_postinst() {
-	[[ -z ${REPLACING_VERSIONS} ]] && return
-	elog "After ${CATEGORY}/${PN} is updated it is recommended to rebuild"
-	elog "all packages compiled with previous versions of ${CATEGORY}/${PN}"
-	elog "due to the static linking nature of Zig."
-	elog "If this is not done, the packages compiled with the older"
-	elog "version of the compiler will not be updated until they are"
-	elog "updated individually, which could mean they will have"
-	elog "vulnerabilities."
-	elog "Run 'emerge @zig-rebuild' to rebuild all 'zig' packages"
+        [[ -z ${REPLACING_VERSIONS} ]] && return
+        elog "After ${CATEGORY}/${PN} is updated it is recommended to rebuild"
+        elog "all packages compiled with previous versions of ${CATEGORY}/${PN}"
+        elog "due to the static linking nature of Zig."
+        elog "If this is not done, the packages compiled with the older"
+        elog "version of the compiler will not be updated until they are"
+        elog "updated individually, which could mean they will have"
+        elog "vulnerabilities."
+        elog "Run 'emerge @zig-rebuild' to rebuild all 'zig' packages"
 }
