@@ -1,5 +1,5 @@
 dev-db/tigerbeetle 9999: A distributed financial accounting database.
-dev-lang/zig 9999: Programming language for maintaining robust, optimal, and reusable software
+dev-lang/zig 9999: A robust, optimal, and maintainable programming language
 dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
 dev-util/zigmod 9999: A package manager for the Zig programming language.
 dev-util/zigup 9999: Download and manage zig compilers.
