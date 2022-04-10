@@ -14,7 +14,7 @@ DOCS=( README.md )
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
 SLOT="0"
 
-BDEPEND=">=dev-lang/go-1.16.0"
+BDEPEND=">=dev-lang/go-1.17.0"
 
 RDEPEND="
 	dev-vcs/git
