@@ -14,6 +14,6 @@ DOCS=( README.md )
 LICENSE="Apache-2.0"
 SLOT="0"
 
-BDEPEND="~dev-lang/zig-0.9.1"
+BDEPEND="~virtual/zig-0.9.1"
 DEPEND=">=sys-kernel/linux-headers-5.7"
 RDEPEND="${DEPEND}"

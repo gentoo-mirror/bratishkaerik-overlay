@@ -12,7 +12,7 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/ziglang/zig.git"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/ziglang/zig/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://ziglang.org/download/${PV}/${P}.tar.xz"
 	KEYWORDS="~amd64 ~arm ~arm64"
 fi
 
@@ -37,6 +37,7 @@ RDEPEND="
 	>=sys-devel/lld-${LLVM_MAX_SLOT}
 	<sys-devel/lld-$((${LLVM_MAX_SLOT} + 1))
 	sys-devel/llvm:${LLVM_MAX_SLOT}[${LLVM_TARGET_USEDEPS// /,}]
+	!!dev-lang/zig-bin
 "
 DEPEND="${RDEPEND}"
 
