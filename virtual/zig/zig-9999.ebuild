@@ -10,4 +10,5 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
 BDEPEND=""
-RDEPEND="|| ( ~dev-lang/zig-${PV} ~dev-lang/zig-bin-0.10.0.1740 )"
+RDEPEND="~dev-lang/zig-${PV}"
+# Maybe someday zig-bin
