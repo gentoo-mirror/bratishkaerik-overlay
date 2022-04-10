@@ -30,4 +30,20 @@ src_install() {
 
 	dosym "../../opt/${P}/zig" /usr/bin/zig
 	fperms 0755 /usr/bin/zig
+
+        # install the @zig-rebuild set for Portage
+	insinto /usr/share/portage/config/sets
+	newins "${FILESDIR}"/zig-sets.conf zig.conf
+}
+
+pkg_postinst() {
+	[[ -z ${REPLACING_VERSIONS} ]] && return
+	elog "After ${CATEGORY}/${PN} is updated it is recommended to rebuild"
+	elog "all packages compiled with previous versions of ${CATEGORY}/${PN}"
+	elog "due to the static linking nature of Zig."
+	elog "If this is not done, the packages compiled with the older"
+	elog "version of the compiler will not be updated until they are"
+	elog "updated individually, which could mean they will have"
+	elog "vulnerabilities."
+	elog "Run 'emerge @zig-rebuild' to rebuild all 'zig' packages"
 }
