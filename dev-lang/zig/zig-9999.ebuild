@@ -18,7 +18,7 @@ fi
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="test"
+IUSE="test +stage2"
 RESTRICT="!test? ( test )"
 
 BUILD_DIR="${S}/build"
@@ -48,6 +48,9 @@ llvm_check_deps() {
 # see https://github.com/ziglang/zig/wiki/Troubleshooting-Build-Issues#high-memory-requirements
 CHECKREQS_MEMORY="10G"
 
+# see https://github.com/ziglang/zig/issues/11137
+PATCHES=( "${FILESDIR}/${P}-stage2-fix.patch" )
+
 pkg_setup() {
 	llvm_pkg_setup
 	check-reqs_pkg_setup
@@ -62,6 +65,15 @@ src_configure() {
 	cmake_src_configure
 }
 
+src_compile() {
+	cmake_src_compile
+
+	if use stage2 ; then
+		cd "${BUILD_DIR}" || die
+		./zig build -p stage2 -Dstatic-llvm=false -Denable-llvm=true || die
+	fi
+}
+
 src_test() {
 	cd "${BUILD_DIR}" || die
 	./zig build test || die
@@ -70,12 +82,19 @@ src_test() {
 src_install() {
 	cmake_src_install
 
+	if use stage2 ; then
+		cd "${BUILD_DIR}" || die
+		mv ./stage2/bin/zig zig-stage2 || die
+		dobin zig-stage2
+	fi
+
 	# install the @zig-rebuild set for Portage
 	insinto /usr/share/portage/config/sets
 	newins "${FILESDIR}"/zig-sets.conf zig.conf
 }
 
 pkg_postinst() {
+	use stage2 && elog "You enabled stage2 USE flag, Zig stage1 was installed as /usr/bin/zig, Zig stage2 was installed as /usr/bin/zig-stage2"
 	[[ -z ${REPLACING_VERSIONS} ]] && return
 	elog "After ${CATEGORY}/${PN} is updated it is recommended to rebuild"
 	elog "all packages compiled with previous versions of ${CATEGORY}/${PN}"
