@@ -70,9 +70,6 @@ src_test() {
 src_install() {
 	cmake_src_install
 
-	cd "${BUILD_DIR}" || die
-	mv ./stage2/bin/zig zig-stage2 || die
-	dobin zig-stage2
 	# install the @zig-rebuild set for Portage
 	insinto /usr/share/portage/config/sets
 	newins "${FILESDIR}"/zig-sets.conf zig.conf
