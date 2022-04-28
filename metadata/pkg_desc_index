@@ -6,7 +6,7 @@ dev-util/zigmod 9999: A package manager for the Zig programming language.
 dev-util/zigup 9999: Download and manage zig compilers.
 dev-util/zls 9999: Zig LSP implementation + Zig Language Server
 games-arcade/pacman_zig 9999: Simple Pacman clone written in Zig.
-sys-fs/ncdu 2.1: NCurses Disk Usage
+sys-fs/ncdu 2.1.2: NCurses Disk Usage
 virtual/zig 0.9.1 9999: Virtual for Zig language compiler
 www-apps/mycorrhiza 1.9.0 9999: Git-based wiki engine written in Go using mycomarkup
 www-apps/mycorrhiza-bin 1.8.2: Git-based wiki engine written in Go using mycomarkup (pre-built package)
