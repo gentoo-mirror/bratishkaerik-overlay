@@ -70,7 +70,7 @@ src_compile() {
 
 	if use stage2 ; then
 		cd "${BUILD_DIR}" || die
-		./zig build -p stage2 -Dstatic-llvm=false -Denable-llvm=true || die
+		./zig build -p stage2 -Dstatic-llvm=false -Denable-llvm=true -Drelease=true || die
 	fi
 }
 

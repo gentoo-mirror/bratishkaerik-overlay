@@ -5,23 +5,27 @@ EAPI=8
 
 DESCRIPTION="A robust, optimal, and maintainable programming language"
 HOMEPAGE="https://ziglang.org/"
-SRC_URI="
-	amd64? ( https://ziglang.org/download/${PV}/zig-linux-x86_64-${PV}.tar.xz )
-	arm? ( https://ziglang.org/download/${PV}/zig-linux-armv7a-${PV}.tar.xz )
-	arm64? ( https://ziglang.org/download/${PV}/zig-linux-aarch64-${PV}.tar.xz )
-	x86? ( https://ziglang.org/download/${PV}/zig-linux-i386-${PV}.tar.xz )"
-KEYWORDS="-* ~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="-* ~amd64 ~arm64"
 
 LICENSE="MIT"
 SLOT="0"
 
 RDEPEND="!!dev-lang/zig"
 
-src_unpack() {
-	unpack ${A}
+RESTRICT="network-sandbox"
 
-	mv "${WORKDIR}/"* "${S}"
+src_unpack() {
+	MASTER_VERSION="$(curl -s https://ziglang.org/download/index.json | jq --raw-output '.master.version')"
+
+	use amd64 && MY_V="zig-linux-x86_64-${MASTER_VERSION}"
+	use arm64 && MY_V="zig-linux-aarch64-${MASTER_VERSION}"
+	wget "https://ziglang.org/builds/${MY_V}.tar.xz" || die
+
+	unpack ./"${MY_V}.tar.xz"
+	mv "${MY_V}" "${S}" || die
 }
+
+QA_PREBUILT="opt/${P}/zig"
 
 src_install() {
 	insinto /opt/
