@@ -14,7 +14,7 @@ DOCS=( README.md )
 LICENSE="MIT"
 SLOT="0"
 
-BDEPEND=">=virtual/zig-9999"
+BDEPEND="=virtual/zig-9999"
 RDEPEND="${BDEPEND}"
 
 RESTRICT="network-sandbox"
