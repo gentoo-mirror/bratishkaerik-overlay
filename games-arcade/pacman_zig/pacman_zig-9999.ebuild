@@ -15,7 +15,7 @@ LICENSE="MIT"
 SLOT="0"
 
 BDEPEND="
-	=virtual/zig-9999
+	=dev-lang/zig-9999
 	x11-libs/libX11
 	x11-libs/libXi
 	x11-libs/libXcursor
