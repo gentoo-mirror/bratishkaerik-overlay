@@ -1,12 +1,9 @@
 dev-db/tigerbeetle 9999: A distributed financial accounting database.
-dev-lang/zig 0.9.1 9999: A robust, optimal, and maintainable programming language
-dev-lang/zig-bin 0.9.1 9999: A robust, optimal, and maintainable programming language
 dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
 dev-util/zigmod 9999: A package manager for the Zig programming language.
 dev-util/zigup 9999: Download and manage zig compilers.
 dev-util/zls 9999: Zig LSP implementation + Zig Language Server
 games-arcade/pacman_zig 9999: Simple Pacman clone written in Zig.
 sys-fs/ncdu 2.1.2: NCurses Disk Usage
-virtual/zig 0.9.1 9999: Virtual for Zig language compiler
 www-apps/mycorrhiza 1.9.0 9999: Git-based wiki engine written in Go using mycomarkup
 www-apps/mycorrhiza-bin 1.8.2: Git-based wiki engine written in Go using mycomarkup (pre-built package)
