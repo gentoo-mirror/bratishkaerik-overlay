@@ -4,7 +4,7 @@ My Gentoo repository
 
 # How to add
 
-```bash
+```sh
 emerge -a app-eselect/eselect-repository dev-vcs/git
 eselect repository enable bratishkaerik-overlay
 emaint sync -r bratishkaerik-overlay
@@ -31,10 +31,6 @@ emaint sync -r bratishkaerik-overlay
 * Package: `dev-db/tigerbeetle`
 * Homepage: https://www.tigerbeetle.com/
 * Created (live ebuild)
-## Zig: Programming language for maintaining robust, optimal, and reusable software
-* Package: `dev-lang/zig`
-* Homepage: https://www.tigerbeetle.com/
-* Added set for all package with my `zig` eclass
 ## zigmod: A package manager for the Zig programming language.
 * Package: `dev-util/zigmod`
 * Homepage: https://aquila.red/

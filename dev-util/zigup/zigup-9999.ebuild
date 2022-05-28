@@ -14,7 +14,7 @@ DOCS=( README.md )
 LICENSE="public-domain"
 SLOT="0"
 
-BDEPEND="=virtual/zig-9999"
+BDEPEND="=dev-lang/zig-9999"
 
 RESTRICT="network-sandbox"
 
