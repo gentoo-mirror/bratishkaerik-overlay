@@ -28,7 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	go build -ldflags '-s' . || die
+	ego build -ldflags '-s' .
 }
 
 src_install() {
