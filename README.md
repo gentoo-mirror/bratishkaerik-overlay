@@ -19,10 +19,6 @@ emaint sync -r bratishkaerik-overlay
 * Package: `www-apps/mycorrhiza` and `www-apps/mycorrhiza-bin`
 * Homepage: https://mycorrhiza.wiki
 * Created + live ebuild + binary package (from upstream)
-## ncdu: NCurses Disk Usage
-* Package: `sys-fs/ncdu`
-* Homepage: https://dev.yorhel.nl/ncdu/
-* Updated
 ## pacman.zig: Simple Pacman clone written in Zig
 * Package: `games-arcade/pacman_zig`
 * Homepage: https://github.com/floooh/pacman.zig
