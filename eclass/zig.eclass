@@ -53,7 +53,7 @@ zig_src_test() {
 zig_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	DESTDIR="${D}" zig build install --prefix "${D}" --verbose
+	DESTDIR="${ED}" zig build install --prefix "${EPREFIX}/usr" --verbose
 	echo "$@" >&2
 	"$@" || die "install failed"
 }
