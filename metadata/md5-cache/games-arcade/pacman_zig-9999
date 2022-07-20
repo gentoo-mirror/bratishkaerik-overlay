@@ -7,5 +7,5 @@ INHERIT=git-r3 zig
 LICENSE=MIT
 PROPERTIES=live
 SLOT=0
-_eclasses_=git-r3	b9ac6f96d2a88edb5b351df634dc5e53	toolchain-funcs	1542e649be915f43f6908a9e93909961	multilib	5ca4e49abed8e3a2f7b56920eadee157	flag-o-matic	629c5cdf86e3c68e26f2365c54c5d9f5	zig	3a95aba8ba09b15a507350dde997f967
-_md5_=37890a7d71887030a350fd81f9632440
+_eclasses_=git-r3	b9ac6f96d2a88edb5b351df634dc5e53	toolchain-funcs	1542e649be915f43f6908a9e93909961	multilib	5ca4e49abed8e3a2f7b56920eadee157	flag-o-matic	629c5cdf86e3c68e26f2365c54c5d9f5	zig	403a1c60074fef0e446470f5938ce21e
+_md5_=77fb645983f781d112585f1eef562b8b
