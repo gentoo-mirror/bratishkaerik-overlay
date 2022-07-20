@@ -23,8 +23,6 @@ RDEPEND="
 	!!www-apps/mycorrhiza
 "
 
-DEPEND="${RDEPEND}"
-
 src_install() {
 	dobin mycorrhiza
 }

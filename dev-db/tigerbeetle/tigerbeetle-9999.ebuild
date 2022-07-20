@@ -9,7 +9,6 @@ EGIT_REPO_URI="https://github.com/coilhq/tigerbeetle"
 
 HOMEPAGE="https://www.tigerbeetle.com/"
 DESCRIPTION="A distributed financial accounting database."
-DOCS=( README.md )
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -17,3 +16,9 @@ SLOT="0"
 BDEPEND="~dev-lang/zig-0.9.1"
 DEPEND=">=sys-kernel/linux-headers-5.7"
 RDEPEND="${DEPEND}"
+
+src_install() {
+	zig_src_install
+	dodoc -r docs/
+	dodoc README.md
+}

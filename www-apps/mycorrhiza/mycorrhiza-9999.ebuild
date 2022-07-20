@@ -21,8 +21,6 @@ RDEPEND="
 	!!www-apps/mycorrhiza-bin
 "
 
-DEPEND="${RDEPEND}"
-
 src_unpack() {
 	git-r3_src_unpack
 	go-module_live_vendor
