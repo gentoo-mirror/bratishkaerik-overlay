@@ -3,16 +3,19 @@
 
 # @ECLASS: zig.eclass
 # @AUTHOR:
-# BratishkaErik <bratishkaerik@getgoogleoff.me>
+# Eric Joldasov <bratishkaerik@getgoogleoff.me>
 # @SUPPORTED_EAPIS: 7 8
 # @MAINTAINER:
-# BratishkaErik <bratishkaerik@getgoogleoff.me>
+# Eric Joldasov <bratishkaerik@getgoogleoff.me>
 # @BLURB: common functions for zig builds
 
 case ${EAPI} in
 	7|8) ;;
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
+
+# see https://github.com/ziglang/zig/issues/3382
+QA_FLAGS_IGNORED='.*'
 
 inherit flag-o-matic
 
@@ -50,7 +53,7 @@ zig_src_test() {
 zig_src_install() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	DESTDIR="${D}" zig build install --prefix "/usr" --verbose
+	DESTDIR="${ED}" zig build install --prefix "${EPREFIX}/usr" --verbose
 	echo "$@" >&2
 	"$@" || die "install failed"
 }

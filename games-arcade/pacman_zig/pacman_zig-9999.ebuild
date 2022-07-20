@@ -20,4 +20,5 @@ BDEPEND="
 	x11-libs/libXi
 	x11-libs/libXcursor
 	media-libs/libglvnd[X(+)]
-	media-libs/alsa-lib"
+	media-libs/alsa-lib
+"
