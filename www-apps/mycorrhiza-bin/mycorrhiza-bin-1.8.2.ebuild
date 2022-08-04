@@ -18,17 +18,15 @@ S="${WORKDIR}"
 LICENSE="AGPL-3 MIT Apache-2.0 BSD BSD-2"
 SLOT="0"
 
-RDEPEND="
-	dev-vcs/git
-	!!www-apps/mycorrhiza
-"
+RDEPEND="dev-vcs/git"
 
 src_install() {
-	dobin mycorrhiza
+	newbin mycorrhiza mycorrhiza-bin
+	einstalldocs
 }
 
 pkg_postinst() {
-	elog "Quick start: /usr/bin/mycorrhiza /your/wiki/directory"
+	elog "Quick start: /usr/bin/mycorrhiza-bin /your/wiki/directory"
 	elog
 	elog "It will initialize a Git repository, set useful default settings"
 	elog "And run a server on http://localhost:1737"

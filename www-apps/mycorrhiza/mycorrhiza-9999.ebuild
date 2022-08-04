@@ -16,10 +16,7 @@ SLOT="0"
 
 BDEPEND=">=dev-lang/go-1.18.0"
 
-RDEPEND="
-	dev-vcs/git
-	!!www-apps/mycorrhiza-bin
-"
+RDEPEND="dev-vcs/git"
 
 src_unpack() {
 	git-r3_src_unpack
