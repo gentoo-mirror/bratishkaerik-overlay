@@ -28,7 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	ego build -ldflags "$LDFLAGS" .
+	ego build -buildmode=pie -ldflags "-s -linkmode external -extldflags '${LDFLAGS}'" -trimpath .
 }
 
 src_install() {
