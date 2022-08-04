@@ -27,11 +27,13 @@ src_unpack() {
 }
 
 src_compile() {
-	ego build -ldflags '-s' .
+	ego build -ldflags "$LDFLAGS" .
 }
 
 src_install() {
 	dobin mycorrhiza
+	doman help/mycorrhiza.1
+	einstalldocs
 }
 
 pkg_postinst() {
