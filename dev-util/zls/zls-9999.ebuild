@@ -14,7 +14,7 @@ DOCS=( README.md )
 LICENSE="MIT"
 SLOT="0"
 
-BDEPEND="=dev-lang/zig-9999"
+BDEPEND="~dev-lang/zig-9999"
 RDEPEND="${BDEPEND}"
 
 pkg_postinst() {

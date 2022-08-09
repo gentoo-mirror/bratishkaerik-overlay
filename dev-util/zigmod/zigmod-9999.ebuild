@@ -12,7 +12,7 @@ DESCRIPTION="A package manager for the Zig programming language."
 LICENSE="MIT"
 SLOT="0"
 
-BDEPEND="=dev-lang/zig-9999"
+BDEPEND="~dev-lang/zig-9999"
 RDEPEND="${BDEPEND}"
 
 RESTRICT="network-sandbox"
