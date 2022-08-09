@@ -19,8 +19,7 @@ QA_FLAGS_IGNORED='usr/bin/zigup'
 
 src_unpack() {
 	git-r3_src_unpack
-	cd "${S}"
-	zig build -Dfetch || die
+	zig build -Dfetch --build-file "${S}"/build.zig || die
 }
 
 src_compile() {
