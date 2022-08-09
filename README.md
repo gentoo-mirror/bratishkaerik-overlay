@@ -2,40 +2,53 @@
 
 My Gentoo repository
 
-# How to add
-
+# How to add this overlay
+## Via eselect-repo
 ```sh
-emerge -a app-eselect/eselect-repository dev-vcs/git
-eselect repository enable bratishkaerik-overlay
-emaint sync -r bratishkaerik-overlay
+$ doas eselect repository enable bratishkaerik-overlay
+```
+
+## Via layman
+```sh
+$ doas layman -a bratishkaerik-overlay
+```
+
+## Manually
+```sh
+$ doas cat >> /etc/portage/repos.conf/bratishkaerik-overlay.conf << "EOF"
+
+[bratishkaerik-overlay]
+location = /var/db/repos/bratishkaerik-overlay
+sync-type = git
+sync-uri = https://codeberg.org/BratishkaErik/bratishkaerik-overlay.git
+
+EOF
+```
+
+## Syncing this repository
+```sh
+$ doas emaint sync -r bratishkaerik-overlay
 ```
 
 # What's inside the repository?
-## Gyro: A Zig package manager with an index, build runner, and build dependencies
-* Package: `dev-util/gyro`
+## `dev-util/gyro`: A Zig package manager with an index, build runner, and build dependencies
 * Homepage: https://astrolabe.pm/
 * Created (live ebuild)
-## Mycorrhiza: Git-based wiki engine written in Go using mycomarkup
-* Package: `www-apps/mycorrhiza` and `www-apps/mycorrhiza-bin`
+## `www-apps/mycorrhiza`: Git-based wiki engine written in Go using mycomarkup
 * Homepage: https://mycorrhiza.wiki
-* Created + live ebuild + binary package (from upstream)
-## pacman.zig: Simple Pacman clone written in Zig
-* Package: `games-arcade/pacman_zig`
+* Created + live ebuild + binary package `www-apps/mycorrhiza-bin` (from upstream)
+## `games-arcade/pacman_zig`: Simple Pacman clone written in Zig
 * Homepage: https://github.com/floooh/pacman.zig
 * Created (live ebuild)
-## TigerBeetle: A distributed financial accounting database
-* Package: `dev-db/tigerbeetle`
+## `dev-db/tigerbeetle`: A distributed financial accounting database
 * Homepage: https://www.tigerbeetle.com/
 * Created (live ebuild)
-## zigmod: A package manager for the Zig programming language.
-* Package: `dev-util/zigmod`
+## `dev-util/zigmod`: A package manager for the Zig programming language.
 * Homepage: https://aquila.red/
 * Created (live ebuild)
-## zigup: Download and manage zig compilers
-* Package: `dev-util/zigup`
+## `dev-util/zigup`: Download and manage zig compilers
 * Homepage: https://github.com/marler8997/zigup
 * Created (live ebuild)
-## zls: Zig LSP implementation + Zig Language Server
-* Package: `dev-util/zls`
+## `dev-util/zls`: Zig LSP implementation + Zig Language Server
 * Homepage: https://github.com/zigtools/zls
 * Created (live ebuild)
