@@ -31,5 +31,5 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "Quickstart: zls config"
+	elog "For creating or updating config: zls --config"
 }
