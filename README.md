@@ -34,15 +34,6 @@ $ doas emaint sync -r bratishkaerik-overlay
 ## `dev-util/gyro`: A Zig package manager with an index, build runner, and build dependencies
 * Homepage: https://astrolabe.pm/
 * Created (live ebuild)
-## `www-apps/mycorrhiza`: Git-based wiki engine written in Go using mycomarkup
-* Homepage: https://mycorrhiza.wiki
-* Created + live ebuild + binary package `www-apps/mycorrhiza-bin` (from upstream)
-## `games-arcade/pacman_zig`: Simple Pacman clone written in Zig
-* Homepage: https://github.com/floooh/pacman.zig
-* Created (live ebuild)
-## `dev-db/tigerbeetle`: A distributed financial accounting database
-* Homepage: https://www.tigerbeetle.com/
-* Created (live ebuild)
 ## `dev-util/zigmod`: A package manager for the Zig programming language.
 * Homepage: https://aquila.red/
 * Created (live ebuild)
