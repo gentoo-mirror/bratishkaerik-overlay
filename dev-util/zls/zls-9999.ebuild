@@ -18,15 +18,15 @@ BDEPEND="~dev-lang/zig-9999"
 QA_FLAGS_IGNORED="usr/bin/zls"
 
 src_compile() {
-	zig build -Drelease-safe -Ddata_version=master --verbose || die
+	zig-stage1 build -Drelease-safe -Ddata_version=master --verbose || die
 }
 
 src_test() {
-	zig build test --verbose || die
+	zig-stage1 build test --verbose || die
 }
 
 src_install() {
-	DESTDIR="${D}" zig build install --prefix "${EPREFIX}"/usr --verbose || die
+	DESTDIR="${D}" zig-stage1 build install --prefix "${EPREFIX}"/usr --verbose || die
 	dodoc README.md
 }
 
