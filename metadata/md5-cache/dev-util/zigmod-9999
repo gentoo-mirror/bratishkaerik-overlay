@@ -1,5 +1,5 @@
 BDEPEND=~dev-lang/zig-9999 >=dev-vcs/git-1.8.2.1[curl]
-DEFINED_PHASES=compile install unpack
+DEFINED_PHASES=install unpack
 DESCRIPTION=A package manager for the Zig programming language.
 EAPI=8
 HOMEPAGE=https://aquila.red/
@@ -9,4 +9,4 @@ PROPERTIES=live
 RDEPEND=~dev-lang/zig-9999
 SLOT=0
 _eclasses_=git-r3	b9ac6f96d2a88edb5b351df634dc5e53
-_md5_=8319d351490e83fb609c18ab0e409d59
+_md5_=fd13987e6cdcc4a45f248de3b16a49ae
