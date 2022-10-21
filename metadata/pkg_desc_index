@@ -1,4 +1,4 @@
-dev-util/gyro 9999: A Zig package manager with an index, build runner, and build dependencies.
-dev-util/zigmod 9999: A package manager for the Zig programming language.
-dev-util/zigup 9999: Download and manage zig compilers.
-dev-util/zls 9999: Zig LSP implementation + Zig Language Server
+dev-zig/gyro 9999: A Zig package manager with an index, build runner, and build dependencies
+dev-zig/zigmod 9999: A package manager for the Zig programming language
+dev-zig/zigup 9999: Download and manage zig compilers
+dev-zig/zls 9999: Zig LSP implementation + Zig Language Server

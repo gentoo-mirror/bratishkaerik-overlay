@@ -1,8 +1,8 @@
 BDEPEND=~dev-lang/zig-9999 >=dev-vcs/git-1.8.2.1[curl]
 DEFINED_PHASES=compile install test unpack
-DESCRIPTION=A Zig package manager with an index, build runner, and build dependencies.
+DESCRIPTION=A Zig package manager with an index, build runner, and build dependencies
 EAPI=8
-HOMEPAGE=https://astrolabe.pm/
+HOMEPAGE=https://astrolabe.pm/ https://github.com/mattnite/gyro
 INHERIT=git-r3
 IUSE=+zsh-completion
 LICENSE=MIT
@@ -10,4 +10,4 @@ PROPERTIES=live
 RDEPEND=~dev-lang/zig-9999
 SLOT=0
 _eclasses_=git-r3	b9ac6f96d2a88edb5b351df634dc5e53
-_md5_=12abcf40dc5f0ef224742d38a3d36b3c
+_md5_=c2b9b76f7021f011fb60aafa367e1067
