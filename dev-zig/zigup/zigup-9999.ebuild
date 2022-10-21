@@ -8,7 +8,7 @@ inherit git-r3
 EGIT_REPO_URI="https://github.com/marler8997/zigup"
 
 HOMEPAGE="https://github.com/marler8997/zigup"
-DESCRIPTION="Download and manage zig compilers."
+DESCRIPTION="Download and manage zig compilers"
 
 LICENSE="public-domain"
 SLOT="0"
@@ -19,7 +19,8 @@ QA_FLAGS_IGNORED='usr/bin/zigup'
 
 src_unpack() {
 	git-r3_src_unpack
-	zig build -Dfetch --build-file "${S}"/build.zig || die
+	cd "${S}" || die
+	zig build -Dfetch || die
 }
 
 src_compile() {
@@ -27,10 +28,10 @@ src_compile() {
 }
 
 src_test() {
-	zig build test --verbose || die
+	zig build test -Drelease-safe --verbose || die
 }
 
 src_install() {
-	DESTDIR="${D}" zig build install --prefix "${EPREFIX}"/usr --verbose || die
+	DESTDIR="${D}" zig build install --prefix "${EPREFIX}"/usr -Drelease-safe --verbose || die
 	dodoc README.md
 }
