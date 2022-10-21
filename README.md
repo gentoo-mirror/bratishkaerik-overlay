@@ -31,15 +31,15 @@ $ doas emaint sync -r bratishkaerik-overlay
 ```
 
 # What's inside the repository?
-## `dev-util/gyro`: A Zig package manager with an index, build runner, and build dependencies
+## `dev-zig/gyro`: A Zig package manager with an index, build runner, and build dependencies
 * Homepage: https://astrolabe.pm/
 * Created (live ebuild)
-## `dev-util/zigmod`: A package manager for the Zig programming language.
+## `dev-zig/zigmod`: A package manager for the Zig programming language
 * Homepage: https://aquila.red/
 * Created (live ebuild)
-## `dev-util/zigup`: Download and manage zig compilers
+## `dev-zig/zigup`: Download and manage zig compilers
 * Homepage: https://github.com/marler8997/zigup
 * Created (live ebuild)
-## `dev-util/zls`: Zig LSP implementation + Zig Language Server
+## `dev-zig/zls`: Zig LSP implementation + Zig Language Server
 * Homepage: https://github.com/zigtools/zls
 * Created (live ebuild)

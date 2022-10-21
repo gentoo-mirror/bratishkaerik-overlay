@@ -7,8 +7,8 @@ inherit git-r3
 
 EGIT_REPO_URI="https://github.com/mattnite/gyro"
 
-HOMEPAGE="https://astrolabe.pm/"
-DESCRIPTION="A Zig package manager with an index, build runner, and build dependencies."
+HOMEPAGE="https://astrolabe.pm/ https://github.com/mattnite/gyro"
+DESCRIPTION="A Zig package manager with an index, build runner, and build dependencies"
 IUSE="+zsh-completion"
 
 LICENSE="MIT"

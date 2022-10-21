@@ -7,8 +7,8 @@ inherit git-r3
 
 EGIT_REPO_URI="https://github.com/nektro/zigmod"
 
-HOMEPAGE="https://aquila.red/"
-DESCRIPTION="A package manager for the Zig programming language."
+HOMEPAGE="https://aquila.red/ https://github.com/nektro/zigmod"
+DESCRIPTION="A package manager for the Zig programming language"
 LICENSE="MIT"
 SLOT="0"
 
@@ -25,7 +25,6 @@ src_unpack() {
 
 src_install() {
 	DESTDIR="${D}" zig build install -Drelease -Duse-full-name --prefix "${EPREFIX}"/usr --verbose || die
-
 	dodoc -r docs/
 	dodoc README.md
 }
