@@ -40,6 +40,3 @@ $ doas emaint sync -r bratishkaerik-overlay
 ## `dev-zig/zigup`: Download and manage zig compilers
 * Homepage: https://github.com/marler8997/zigup
 * Created (live ebuild)
-## `dev-zig/zls`: Zig LSP implementation + Zig Language Server
-* Homepage: https://github.com/zigtools/zls
-* Created (live ebuild)
