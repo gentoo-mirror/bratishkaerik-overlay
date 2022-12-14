@@ -1,4 +1,4 @@
-BDEPEND=~dev-lang/zig-9999 >=dev-vcs/git-1.8.2.1[curl]
+BDEPEND=|| ( ~dev-lang/zig-0.10.0 ~dev-lang/zig-bin-0.10.0 ) >=dev-vcs/git-1.8.2.1[curl]
 DEFINED_PHASES=compile install test unpack
 DESCRIPTION=A Zig package manager with an index, build runner, and build dependencies
 EAPI=8
@@ -7,7 +7,7 @@ INHERIT=git-r3
 IUSE=+zsh-completion
 LICENSE=MIT
 PROPERTIES=live
-RDEPEND=~dev-lang/zig-9999
+RDEPEND=|| ( ~dev-lang/zig-0.10.0 ~dev-lang/zig-bin-0.10.0 )
 SLOT=0
 _eclasses_=git-r3	2347f8fe2d392b2a091191f94be37e6f
-_md5_=c2b9b76f7021f011fb60aafa367e1067
+_md5_=021155985519c78bbfed2ee0336665d0
