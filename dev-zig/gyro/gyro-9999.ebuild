@@ -14,7 +14,7 @@ IUSE="+zsh-completion"
 LICENSE="MIT"
 SLOT="0"
 
-BDEPEND="~dev-lang/zig-9999"
+BDEPEND="|| ( ~dev-lang/zig-0.10.0 ~dev-lang/zig-bin-0.10.0 )"
 RDEPEND="${BDEPEND}"
 
 QA_FLAGS_IGNORED='usr/bin/gyro'
