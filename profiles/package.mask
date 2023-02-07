@@ -1,0 +1,12 @@
+# Copyright 2023 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+# Eric Joldasov <bratishkaerik@getgoogleoff.me>
+# Requires dev-lang/zig-9999, which recently incorporated own (still WI{P) package manager
+# and made some changes in std.Build API.
+# These packages either no longer required (as they tried to eventually
+# help in development of official one) or no longer builds
+# Removal on 2023-02-14
+dev-zig/gyro
+dev-zig/zigmod
+dev-zig/zigup
