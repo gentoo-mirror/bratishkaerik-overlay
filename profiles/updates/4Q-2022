@@ -1,3 +1,0 @@
-move dev-util/gyro dev-zig/gyro
-move dev-util/zigmod dev-zig/zigmod
-move dev-util/zigup dev-zig/zigup
