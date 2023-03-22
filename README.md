@@ -20,7 +20,7 @@ $ doas cat >> /etc/portage/repos.conf/bratishkaerik-overlay.conf << "EOF"
 [bratishkaerik-overlay]
 location = /var/db/repos/bratishkaerik-overlay
 sync-type = git
-sync-uri = https://codeberg.org/BratishkaErik/bratishkaerik-overlay.git
+sync-uri = https://git.sr.ht/~bratishkaerik/bratishkaerik-overlay
 
 EOF
 ```
