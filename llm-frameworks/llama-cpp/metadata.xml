@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>bratishkaerik@getgoogleoff.me</email>
+		<name>Eric Joldasov</name>
+	</maintainer>
+	<longdescription>
+		Part of <cat>llm-frameworks</cat> category.
+		The main goal of llama.cpp is to run the LLaMA model using 4-bit integer quantization on a MacBook:
+		* Plain C/C++ implementation without dependencies
+		* Apple silicon first-class citizen - optimized via ARM NEON, Accelerate and Metal frameworks
+		* AVX, AVX2 and AVX512 support for x86 architectures
+		* Mixed F16 / F32 precision
+		* 2-bit, 3-bit, 4-bit, 5-bit, 6-bit and 8-bit integer quantization support
+		* CUDA, Metal and OpenCL GPU backend support
+
+		The original implementation of llama.cpp was hacked in an evening.
+		Since then, the project has improved significantly thanks to many contributions.
+		This project is mainly for educational purposes and serves as the main playground
+		for developing new features for the ggml library.
+		<!--> for developing new features for the <pkg>sci-libs/ggml</pkg> library. <-->
+	</longdescription>
+	<use>
+		<flag name="lto">
+			Enable Link Time Optimization (LTO)
+		</flag>
+		<flag name="mpi">
+			Enable MPI support to distribute computation over a cluster of machines.
+		</flag>
+		<flag name="cpu_flags_x86_avx512bw">
+			Use AVX-512 Byte and Word instructions
+		</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">ggerganov/llama.cpp</remote-id>
+	</upstream>
+</pkgmetadata>
