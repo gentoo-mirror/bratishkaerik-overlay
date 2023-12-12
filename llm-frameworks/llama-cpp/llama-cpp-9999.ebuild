@@ -12,11 +12,12 @@ HOMEPAGE="https://github.com/ggerganov/llama.cpp"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 +lto mpi cublas cublas-fp16"
+IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 clblast cublas cublas-fp16 +lto mpi"
 
 REQUIRED_USE="
 	cublas-fp16? ( cublas )
 	!cublas? ( !cublas-fp16 )
+	?? ( clblast cublas )
 "
 
 RDEPEND="
@@ -24,15 +25,14 @@ RDEPEND="
 		virtual/mpi[cxx(+),threads(+)]
 	)
 	cublas? (
-		>=dev-util/nvidia-cuda-toolkit-11.8.0
+		>=dev-util/nvidia-cuda-toolkit-11.8.0[profiler(+)]
+	)
+	clblast? (
+		sci-libs/clblast[opencl(+)]
 	)
 "
 
-DEPEND="
-	${RDEPEND}
-"
-
-#BDEPEND=""
+DEPEND="${RDEPEND}"
 
 DOCS=(
 	docs/BLIS.md
@@ -99,7 +99,7 @@ src_configure() {
 		-DLLAMA_CUBLAS="$(usex cublas)"
 		-DLLAMA_CUDA_F16="$(usex cublas-fp16)"
 		-DLLAMA_HIPBLAS=OFF
-		-DLLAMA_CLBLAST=OFF
+		-DLLAMA_CLBLAST="$(usex clblast)"
 		-DLLAMA_MPI="$(usex mpi)"
 	)
 
@@ -122,13 +122,14 @@ pkg_postinst() {
 	elog "'main' and 'parallel' binaries were renamed to 'llama-cpp' and 'llama-cpp-parallel' respectively,"
 	elog "to avoid install collisions. Other binaries were not renamed."
 
-	elog ""
-
-	elog "If you see runtime errors such as this:"
-	elog " * the provided PTX was compiled with an unsupported toolchain."
-	elog ""
-	elog "It means your current nvidia-cuda-toolkit is incompatible with your drivers"
-	elog "(in other words, most likey drivers are outdated). In this case,"
-	elog "update drivers to versions mentioned in https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions ."
-	elog "See also bug https://bugs.gentoo.org/854345 ."
+	if use cublas; then
+		elog ""
+		elog "If you see runtime errors such as this:"
+		elog " * the provided PTX was compiled with an unsupported toolchain."
+		elog ""
+		elog "It means your current nvidia-cuda-toolkit is incompatible with your drivers"
+		elog "(in other words, most likey drivers are outdated). In this case,"
+		elog "update drivers to versions mentioned in https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions ."
+		elog "See also bug https://bugs.gentoo.org/854345 ."
+	fi
 }
