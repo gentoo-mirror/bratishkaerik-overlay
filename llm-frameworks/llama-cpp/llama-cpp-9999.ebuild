@@ -109,4 +109,12 @@ src_install() {
 
 pkg_postinst() {
 	elog "README.md and content of \"docs/\" folder were installed to \"/usr/share/doc/${PF}/llama-star/\"."
+
+	elog "If you see runtime errors such as this:"
+	elog " * the provided PTX was compiled with an unsupported toolchain."
+	elog ""
+	elog "It means your current nvidia-cuda-toolkit is incompatible with your drivers"
+	elog "(in other words, most likey drivers are outdated). In this case,"
+	elog "update drivers to versions mentioned in https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions ."
+	elog "See also bug https://bugs.gentoo.org/854345 ."
 }
