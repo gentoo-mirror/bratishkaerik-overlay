@@ -11,12 +11,20 @@ DESCRIPTION="Port of Facebook's LLaMA model in C/C++"
 HOMEPAGE="https://github.com/ggerganov/llama.cpp"
 
 LICENSE="MIT"
-SLOT="$(ver_cut 1-2)"
-IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 +lto mpi"
+SLOT="0"
+IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 +lto mpi cublas cublas-fp16"
+
+REQUIRED_USE="
+	cublas-fp16? ( cublas )
+	!cublas? ( !cublas-fp16 )
+"
 
 RDEPEND="
 	mpi? (
 		virtual/mpi[cxx(+),threads(+)]
+	)
+	cublas? (
+		>=dev-util/nvidia-cuda-toolkit-11.8.0
 	)
 "
 
@@ -39,7 +47,7 @@ src_unpack() {
 
 	git-r3_src_unpack
 
-	elog "Git repository with sources is located at \"${EGIT_DIR}\", commit \"${EGIT_VERSION}\"."
+	elog "Git pull completed. Repository with sources is located at \"${EGIT_DIR}\", commit \"${EGIT_VERSION}\"."
 }
 
 src_configure() {
@@ -82,15 +90,11 @@ src_configure() {
 		-DLLAMA_ACCELERATE=OFF
 		-DLLAMA_METAL=OFF
 
-		-DLLAMA_BLAS=OFF
-		-DLLAMA_BLAS_VENDOR="Generic"
-		-DLLAMA_CUBLAS=OFF
-		-DLLAMA_CUDA_F16=OFF
+		-DLLAMA_CUBLAS="$(usex cublas)"
+		-DLLAMA_CUDA_F16="$(usex cublas-fp16)"
 		-DLLAMA_HIPBLAS=OFF
 		-DLLAMA_CLBLAST=OFF
 		-DLLAMA_MPI="$(usex mpi)"
-
-		-DCMAKE_INSTALL_PREFIX="${EPREFIX}/usr/$(get_libdir)/llama-cpp/${PV}"
 	)
 
 	cmake_src_configure
@@ -99,11 +103,10 @@ src_configure() {
 src_install() {
 	cmake_src_install
 
-	# Do not compress .key file here.
+	# Do not compress .key file in this directory.
 	docompress -x "/usr/share/doc/${PF}/llama-star/"
 }
 
 pkg_postinst() {
-	elog "llama.cpp was installed to \"${EPREFIX}/usr/$(get_libdir)/llama-cpp/${PV}/\"."
 	elog "README.md and content of \"docs/\" folder were installed to \"/usr/share/doc/${PF}/llama-star/\"."
 }

@@ -22,11 +22,17 @@
 		<!--> for developing new features for the <pkg>sci-libs/ggml</pkg> library. <-->
 	</longdescription>
 	<use>
+		<flag name="cublas">
+				Enable BLAS acceleration using the CUDA cores of Nvidia GPU (requires 52 (Maxwell) architecture or newer)
+		</flag>
+		<flag name="cublas-fp16">
+				Use half-precision (16 bits) floating point for the CUDA calculations (requires 60 (Pascal) architecture or newer)
+		</flag>
 		<flag name="lto">
 			Enable Link Time Optimization (LTO)
 		</flag>
 		<flag name="mpi">
-			Enable MPI support to distribute computation over a cluster of machines.
+			Enable MPI support to distribute computation over a cluster of machines
 		</flag>
 		<flag name="cpu_flags_x86_avx512bw">
 			Use AVX-512 Byte and Word instructions
