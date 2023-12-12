@@ -1,1 +1,2 @@
 llm-frameworks/llama-cpp 9999: Port of Facebook's LLaMA model in C/C++
+llm-gguf/nous-capybara 1.9: Nous Capybara 3B v1.9, GGUF q2_k quantized
