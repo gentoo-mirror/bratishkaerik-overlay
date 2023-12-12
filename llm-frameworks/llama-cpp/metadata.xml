@@ -22,6 +22,9 @@
 		<!--> for developing new features for the <pkg>sci-libs/ggml</pkg> library. <-->
 	</longdescription>
 	<use>
+		<flag name="clblast">
+				Enable OpenCL acceleration using CLBlast library
+		</flag>
 		<flag name="cublas">
 				Enable BLAS acceleration using the CUDA cores of Nvidia GPU (requires 52 (Maxwell) architecture or newer)
 		</flag>
