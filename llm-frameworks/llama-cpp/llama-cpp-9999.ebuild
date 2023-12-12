@@ -5,7 +5,7 @@ EAPI=8
 
 EGIT_REPO_URI="https://github.com/ggerganov/llama.cpp.git"
 
-inherit cmake flag-o-matic git-r3
+inherit cmake cuda flag-o-matic git-r3
 
 DESCRIPTION="Port of Facebook's LLaMA model in C/C++"
 HOMEPAGE="https://github.com/ggerganov/llama.cpp"
@@ -50,10 +50,16 @@ src_unpack() {
 	elog "Git pull completed. Repository with sources is located at \"${EGIT_DIR}\", commit \"${EGIT_VERSION}\"."
 }
 
-src_configure() {
+src_prepare() {
 	# No need, will be detected by "lto" USE-flag and managed by CMake.
 	filter-lto
 
+	use cublas && cuda_add_sandbox
+
+	cmake_src_prepare
+}
+
+src_configure() {
 	local mycmakeargs=(
 		# General:
 		# Installs tests and examples.
@@ -103,12 +109,20 @@ src_configure() {
 src_install() {
 	cmake_src_install
 
+	cd "${ED}/usr/bin/" || die
+	mv main llama-cpp || die
+	mv parallel llama-cpp-parallel || die
+
 	# Do not compress .key file in this directory.
 	docompress -x "/usr/share/doc/${PF}/llama-star/"
 }
 
 pkg_postinst() {
 	elog "README.md and content of \"docs/\" folder were installed to \"/usr/share/doc/${PF}/llama-star/\"."
+	elog "'main' and 'parallel' binaries were renamed to 'llama-cpp' and 'llama-cpp-parallel' respectively,"
+	elog "to avoid install collisions. Other binaries were not renamed."
+
+	elog ""
 
 	elog "If you see runtime errors such as this:"
 	elog " * the provided PTX was compiled with an unsupported toolchain."
