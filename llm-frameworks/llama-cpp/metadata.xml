@@ -25,10 +25,10 @@
 		<flag name="clblast">
 			Enable OpenCL acceleration using CLBlast library
 		</flag>
-		<flag name="cublas">
+		<flag name="cuda">
 			Enable BLAS acceleration using the CUDA cores of Nvidia GPU (requires 52 (Maxwell) architecture or newer)
 		</flag>
-		<flag name="cublas-fp16">
+		<flag name="cuda-fp16">
 			Use half-precision (16 bits) floating point for the CUDA calculations (requires 60 (Pascal) architecture or newer)
 		</flag>
 		<flag name="lto">

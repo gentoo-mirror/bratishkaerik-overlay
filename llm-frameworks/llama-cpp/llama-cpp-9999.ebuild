@@ -12,19 +12,19 @@ HOMEPAGE="https://github.com/ggerganov/llama.cpp"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 clblast cublas cublas-fp16 +lto mpi"
+IUSE="cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_avx512bw cpu_flags_x86_f16c cpu_flags_x86_fma3 clblast cuda cuda-fp16 +lto mpi"
 
 REQUIRED_USE="
-	cublas-fp16? ( cublas )
-	!cublas? ( !cublas-fp16 )
-	?? ( clblast cublas )
+	cuda-fp16? ( cuda )
+	!cuda? ( !cuda-fp16 )
+	?? ( clblast cuda )
 "
 
 RDEPEND="
 	mpi? (
 		virtual/mpi[cxx(+),threads(+)]
 	)
-	cublas? (
+	cuda? (
 		>=dev-util/nvidia-cuda-toolkit-11.8.0[profiler(+)]
 	)
 	clblast? (
@@ -54,7 +54,7 @@ src_prepare() {
 	# No need, will be detected by "lto" USE-flag and managed by CMake.
 	filter-lto
 
-	use cublas && cuda_add_sandbox
+	use cuda && cuda_add_sandbox
 
 	cmake_src_prepare
 }
@@ -96,8 +96,8 @@ src_configure() {
 		-DLLAMA_ACCELERATE=OFF
 		-DLLAMA_METAL=OFF
 
-		-DLLAMA_CUBLAS="$(usex cublas)"
-		-DLLAMA_CUDA_F16="$(usex cublas-fp16)"
+		-DLLAMA_CUDA="$(usex cuda)"
+		-DLLAMA_CUDA_F16="$(usex cuda-fp16)"
 		-DLLAMA_HIPBLAS=OFF
 		-DLLAMA_CLBLAST="$(usex clblast)"
 		-DLLAMA_MPI="$(usex mpi)"
@@ -122,7 +122,7 @@ pkg_postinst() {
 	elog "'main' and 'parallel' binaries were renamed to 'llama-cpp' and 'llama-cpp-parallel' respectively,"
 	elog "to avoid install collisions. Other binaries were not renamed."
 
-	if use cublas; then
+	if use cuda; then
 		elog ""
 		elog "If you see runtime errors such as this:"
 		elog " * the provided PTX was compiled with an unsupported toolchain."
