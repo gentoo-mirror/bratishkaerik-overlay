@@ -28,13 +28,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 DOCS=(
-	README.md
-
-	docs/llama-star/
-	docs/BLIS.md
-	docs/HOWTO-add-model.md
-	docs/debugging-tests.md
-	docs/token_generation_performance_tips.md
+	"README.md"
+	"docs/"
 )
 
 src_unpack() {
@@ -96,12 +91,12 @@ src_configure() {
 src_install() {
 	cmake_src_install
 
-	# Do not compress .key file in this directory.
-	docompress -x "/usr/share/doc/${PF}/llama-star/"
+	# Do not compress ".pdf" and ".key" files in this directory.
+	docompress -x "/usr/share/doc/${PF}/docs/development/llama-star/"
 }
 
 pkg_postinst() {
-	elog "README.md and content of \"docs/\" folder were installed to \"/usr/share/doc/${PF}/\"."
+	elog "README.md and \"docs/\" folder were installed to \"/usr/share/doc/${PF}/\"."
 
 	if use cuda; then
 		elog ""
