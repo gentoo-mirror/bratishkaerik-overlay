@@ -2,7 +2,3 @@
 # Please add your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using pmaint *
 
-llm-frameworks/llama-cpp:cpu_flags_x86_avx512bw - Use AVX-512 Byte and Word instructions
-llm-frameworks/llama-cpp:cuda - Enable BLAS acceleration using the CUDA cores of Nvidia GPU (requires 52 (Maxwell) architecture or newer)
-llm-frameworks/llama-cpp:cuda-fp16 - Use half-precision (16 bits) floating point for the CUDA calculations (requires 60 (Pascal) architecture or newer)
-llm-frameworks/llama-cpp:lto - Enable Link Time Optimization (LTO)
