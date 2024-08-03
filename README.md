@@ -24,6 +24,3 @@ EOF
 ```sh
 $ doas emaint sync -r bratishkaerik-overlay
 ```
-
-# What's inside the repository?
-Nothing right now.
