@@ -8,11 +8,6 @@ My Gentoo repository
 $ doas eselect repository enable bratishkaerik-overlay
 ```
 
-## Via layman
-```sh
-$ doas layman -a bratishkaerik-overlay
-```
-
 ## Manually
 ```sh
 $ doas cat >> /etc/portage/repos.conf/bratishkaerik-overlay.conf << "EOF"
