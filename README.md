@@ -1,26 +1,27 @@
-# bratishkaerik-overlay
+# bratishkaerik-overlay #
 
-My Gentoo repository
+My Gentoo repository.
 
-# How to add this overlay
-## Via eselect-repo
-```sh
+# How to add this overlay #
+
+## Via `eselect-repo` ##
+```console
 $ doas eselect repository enable bratishkaerik-overlay
 ```
 
-## Manually
-```sh
-$ doas cat >> /etc/portage/repos.conf/bratishkaerik-overlay.conf << "EOF"
+## Manually ##
+```console
+$ doas >> /etc/portage/repos.conf/bratishkaerik-overlay.conf << _EOF_
 
 [bratishkaerik-overlay]
 location = /var/db/repos/bratishkaerik-overlay
 sync-type = git
 sync-uri = https://git.sr.ht/~bratishkaerik/bratishkaerik-overlay
 
-EOF
+_EOF_
 ```
 
-## Syncing this repository
-```sh
+## Syncing this repository ##
+```console
 $ doas emaint sync -r bratishkaerik-overlay
 ```
