@@ -12,7 +12,7 @@
 # Prepare Zig toolchain and set environment variables.
 # Supports Zig 0.13+.
 # Does not set any default function, ebuilds must call them manually.
-# Generally, only "zig-toolchain_populate_env_vars" is needed.
+# Generally, only "zig-toolchain_setup" is needed.
 #
 # Intended to be used by ebuilds that call "zig build-exe/lib/obj"
 # or "zig test" directly and by "dev-lang/zig".
@@ -27,7 +27,7 @@ case ${EAPI} in
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
 
-inherit edo flag-o-matic
+inherit edo flag-o-matic linux-info
 
 # @ECLASS_VARIABLE: ZIG_SLOT
 # @PRE_INHERIT
@@ -64,7 +64,7 @@ inherit edo flag-o-matic
 #
 # For zig-toolchain.eclass users:
 # You have to add Zig dependency in your BDEPEND manually and call
-# at least "zig-toolchain_populate_env_vars" before using "ezig".
+# at least "zig-toolchain_setup" before using "ezig".
 #
 # For zig-build.eclass users: see documentation in zig-build.eclass
 # instead.
@@ -85,7 +85,7 @@ fi
 #   (if project uses "std.Build.standardTargetOptions").
 #
 # Can be overriden by user.  If not overriden, then set by
-# "zig-toolchain_populate_env_vars".
+# "zig-toolchain_setup".
 #
 # Example:
 # @CODE
@@ -110,7 +110,7 @@ fi
 #   (if project uses "std.Build.standardTargetOptions").
 #
 # Can be overriden by user.  If not overriden, then set by
-# "zig-toolchain_populate_env_vars".
+# "zig-toolchain_setup".
 #
 # Example:
 # @CODE
@@ -139,7 +139,7 @@ fi
 # integers, strings, etc.).
 #
 # Can be overriden by user.  If not overriden, then set by
-# "zig-toolchain_populate_env_vars".
+# "zig-toolchain_setup".
 
 # @ECLASS_VARIABLE: ZIG_VER
 # @OUTPUT_VARIABLE
@@ -311,12 +311,13 @@ zig-toolchain_find_installation() {
 		|| die "Sanity check failed for \"${ZIG_EXE}\""
 }
 
-# @FUNCTION: zig-toolchain_populate_env_vars
+# @FUNCTION: zig-toolchain_setup
 # @DESCRIPTION:
+# Checks if running Linux kernel version is supported by Zig.
 # Populates ZIG_TARGET, ZIG_CPU, ZIG_EXE and ZIG_VER environment
 # variables with detected values, or, if user set them already,
 # leaves as-is.
-zig-toolchain_populate_env_vars() {
+zig-toolchain_setup() {
 	# Should be first because it sets ZIG_VER which might be used
 	# in the future when setting ZIG_TARGET and ZIG_CPU variables
 	# for incompatible versions.
@@ -344,6 +345,12 @@ zig-toolchain_populate_env_vars() {
 	einfo "ZIG_VER:     ${ZIG_VER}"
 	einfo "ZIG_TARGET:  ${ZIG_TARGET}"
 	einfo "ZIG_CPU:     ${ZIG_CPU}"
+
+	local minimum_linux_kernel="4.19" # For Zig 0.13+
+	if use kernel_linux && kernel_is -lt ${minimum_linux_kernel//./ }; then
+		ewarn "Unsupported Linux kernel version for Zig ${ZIG_SLOT}:"
+		ewarn "Expected >=${minimum_linux_kernel}, found ${KV_FULL}"
+	fi
 }
 
 # @FUNCTION: ezig
@@ -361,7 +368,7 @@ ezig() {
 	debug-print-function "${FUNCNAME[0]}" "${@}"
 
 	if [[ -z "${ZIG_EXE}" ]] ; then
-		die "${FUNCNAME[0]}: ZIG_EXE is not set. Was 'zig-toolchain_populate_env_vars' called before using ezig?"
+		die "${FUNCNAME[0]}: ZIG_EXE is not set. Was 'zig-toolchain_setup' called before using ezig?"
 	fi
 
 	# Progress tree is helpful indicator in TTY, but unfortunately
