@@ -24,6 +24,7 @@ else
 	SRC_URI="
 		https://ziglang.org/download/${PV}/${P}.tar.xz
 		verify-sig? ( https://ziglang.org/download/${PV}/${P}.tar.xz.minisig )
+		https://codeberg.org/BratishkaErik/distfiles/releases/download/dev-lang%2Fzig-${PV}/${P}-llvm-18.1.8-r6-fix.patch
 	"
 	KEYWORDS="~amd64 ~arm ~arm64"
 
@@ -43,8 +44,7 @@ fi
 # lib/libc/glibc: BSD HPND ISC inner-net LGPL-2.1+
 LICENSE="MIT Apache-2.0-with-LLVM-exceptions || ( UoI-NCSA MIT ) || ( Apache-2.0-with-LLVM-exceptions Apache-2.0 MIT BSD-2 ) public-domain BSD-2 ZPL ISC HPND BSD inner-net LGPL-2.1+"
 SLOT="${ZIG_SLOT}"
-IUSE="doc +llvm test"
-RESTRICT="!test? ( test )"
+IUSE="doc +llvm"
 REQUIRED_USE="
 	!llvm? ( !doc )
 	llvm? ( ${LLVM_REQUIRED_USE} )
@@ -68,17 +68,17 @@ DEPEND="
 	)
 "
 BDEPEND+="
-	test? ( !!<sys-apps/sandbox-2.39 )
 	${DEPEND}
 "
 RDEPEND="${DEPEND}"
 IDEPEND="app-eselect/eselect-zig"
 
-DOCS=("README.md" "doc/build.zig.zon.md")
+DOCS=( "README.md" "doc/build.zig.zon.md" )
 
 PATCHES=(
 	"${FILESDIR}/zig-0.13.0-test-std-kernel-version.patch"
 	"${FILESDIR}/zig-0.13.0-skip-test-stack_iterator.patch"
+	"${DISTDIR}/${P}-llvm-18.1.8-r6-fix.patch"
 )
 
 # zig-build does not set this for us since we use ZIG_OPTIONAL=1
@@ -192,7 +192,7 @@ src_compile() {
 
 		local native_cc="$(tc-getBUILD_CC)"
 		"${native_cc}" -o bootstrap "${S}/bootstrap.c" || die "Zig's bootstrap.c compilation failed"
-		ZIG_HOST_TARGET_TRIPLE=${ZIG_HOST_AS_TARGET} CC="${native_cc}" edob ./bootstrap
+		ZIG_HOST_TARGET_TRIPLE=${ZIG_HOST_AS_TARGET} CC="${native_cc}" edo ./bootstrap
 	fi
 
 	cd "${BUILD_DIR}" || die
@@ -211,7 +211,7 @@ src_test() {
 }
 
 src_install() {
-	use doc && local HTML_DOCS=("docgen/doc/langref.html")
+	use doc && local HTML_DOCS=( "docgen/doc/langref.html" )
 
 	ZIG_EXE="./zig2" zig-build_src_install --prefix "${ZIG_SYS_INSTALL_DEST}"
 
