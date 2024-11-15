@@ -1,7 +1,7 @@
 # Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# @ECLASS: zig-build.eclass
+# @ECLASS: zig.eclass
 # @MAINTAINER:
 # Eric Joldasov <bratishkaerik@landless-city.net>
 # @AUTHOR:
@@ -9,13 +9,13 @@
 # Violet Purcell <vimproved@inventati.org>
 # Eric Joldasov <bratishkaerik@landless-city.net>
 # @SUPPORTED_EAPIS: 8
-# @PROVIDES: zig-toolchain
+# @PROVIDES: zig-utils
 # @BLURB: Functions for working with ZBS (Zig Build System)
 # @DESCRIPTION:
 # Functions for working with Zig build system and package manager.
 # Supports Zig 0.13+.  Exports default functions for convenience.
 #
-# Note that zig-build.eclass is mostly tailored for projects that:
+# Note that zig.eclass is mostly tailored for projects that:
 # 1) Install something in build.zig steps: "artifacts" (executable,
 # libraries, objects), source codes, assets, tests, scripts etc.   But
 # many authors also use it to write Zig "modules", build logic
@@ -46,31 +46,31 @@
 # policy is stricter, all 3 options are required and should not
 # be ignored, with no exceptions.
 
-if [[ ! ${_ZIG_BUILD_ECLASS} ]]; then
-_ZIG_BUILD_ECLASS=1
+if [[ ! ${_ZIG_ECLASS} ]]; then
+_ZIG_ECLASS=1
 
 case ${EAPI} in
 	8) ;;
 	*) die "${ECLASS}: EAPI ${EAPI:-0} not supported" ;;
 esac
 
-inherit multiprocessing zig-toolchain
+inherit multiprocessing zig-utils
 
 # @ECLASS_VARIABLE: ZIG_OPTIONAL
 # @PRE_INHERIT
 # @DEFAULT_UNSET
 # @DESCRIPTION:
-# If set to a non-empty value, all logic in zig-toolchain and
-# zig-build eclasses will be considered optional.  No dependencies
+# If set to a non-empty value, all logic in zig-utils and
+# zig eclasses will be considered optional.  No dependencies
 # will be added and no phase functions will be exported.
 #
-# For zig-build.eclass users:
+# For zig.eclass users:
 # You need to add Zig and pkgconfig dependencies in your BDEPEND, set
 # QA_FLAGS_IGNORED and call all phase functions manually.  If you want
-# to use "ezig build" directly, call "zig-build_pkg_setup" before it.
+# to use "ezig build" directly, call "zig_pkg_setup" before it.
 #
-# For zig-toolchain.eclass users: see documentation in
-# zig-toolchain.eclass instead.
+# For zig-utils.eclass users: see documentation in
+# zig-utils.eclass instead.
 if [[ ! ${ZIG_OPTIONAL} ]]; then
 	BDEPEND="virtual/pkgconfig"
 
@@ -84,7 +84,7 @@ fi
 # @DEFAULT_UNSET
 # @DESCRIPTION:
 # Bash associative array with all tarballs that will be fetched by
-# "ezig fetch" in zig-build_src_unpack phase.  Value is URL where
+# "ezig fetch" in zig_src_unpack phase.  Value is URL where
 # tarball is located, key is name under which it would be downloaded
 # and renamed.  So generally it has effect of "value -> key".
 #
@@ -131,27 +131,25 @@ fi
 # "
 # @CODE
 
-# @FUNCTION: _zig-build_set_zbs_uris
+# @FUNCTION: _zig_set_zbs_uris
 # @INTERNAL
 # @DESCRIPTION:
 # Sets ZBS_DEPENDENCIES_SRC_URI variable based on ZBS_DEPENDENCIES.
-_zig-build_set_zbs_uris() {
+_zig_set_zbs_uris() {
 	# Thanks to Alfred Wingate "parona" for inspiration here:
 	# https://gitlab.com/Parona/parona-overlay/-/blob/874dcfe03116574a33ed51f469cc993e98db1fa2/eclass/zig.eclass
 
 	ZBS_DEPENDENCIES_SRC_URI=
 
-	for dependency in ${!ZBS_DEPENDENCIES[@]}; do
+	local dependency
+	for dependency in "${!ZBS_DEPENDENCIES[@]}"; do
 		local uri="${ZBS_DEPENDENCIES[${dependency}]}"
-		if [[ ${#uri} -gt 0 ]]; then
+		if [[ -n "${uri}" ]]; then
 			ZBS_DEPENDENCIES_SRC_URI+=" ${uri} -> ${dependency}"
-		else
-			# Unrepresentable dependency
-			continue
 		fi
 	done
 }
-_zig-build_set_zbs_uris
+_zig_set_zbs_uris
 
 # @ECLASS_VARIABLE: my_zbs_args
 # @DESCRIPTION:
@@ -169,7 +167,7 @@ _zig-build_set_zbs_uris
 # 		-Dpie=true
 # 	)
 #
-# 	zig-build_src_configure
+# 	zig_src_configure
 # }
 # @CODE
 : "${my_zbs_args:=}"
@@ -179,7 +177,7 @@ _zig-build_set_zbs_uris
 # @DESCRIPTION:
 # Bash string with user-specified arguments to pass to the "zig build"
 # after "src_configure".
-# It's appended to the ZBS_ARGS during "zig-build_src_configure".
+# It's appended to the ZBS_ARGS during "zig_src_configure".
 #
 # If this does not have amount of jobs, eclass will try to take amount
 # of jobs from MAKEOPTS, and if it also does not have them, it will
@@ -187,7 +185,7 @@ _zig-build_set_zbs_uris
 #
 # Example:
 # @CODE
-# -j8 --release=small
+# ZBS_ARGS_EXTRA="-j8 --release=small"
 # @CODE
 : "${ZBS_ARGS_EXTRA:=}"
 
@@ -218,22 +216,22 @@ _zig-build_set_zbs_uris
 # Currently, it's used only for Zig packages, which are stored in "p/"
 # subdirectory.
 # Defaults to "${WORKDIR}/zig-eclass" if not set.
-# Should be set before calling "zig-build_src_unpack" or
-# "zig-build_live_fetch".
+# Should be set before calling "zig_src_unpack" or
+# "zig_live_fetch".
 : "${ZBS_ECLASS_DIR:=${WORKDIR}/zig-eclass}"
 
-# @FUNCTION: zig-build_get_jobs
+# @FUNCTION: zig_get_jobs
 # @DESCRIPTION:
 # Returns number of jobs from ZBS_ARGS_EXTRA or MAKEOPTS.
 # If there is none, defaults to number of available processing units.
-zig-build_get_jobs() {
+zig_get_jobs() {
 	local all_args="${ZBS_ARGS_EXTRA} ${MAKEOPTS}"
 	local default_jobs="$(get_nproc)"
-	local jobs=$(makeopts_jobs "${all_args}" "${default_jobs}")
+	local jobs="$(makeopts_jobs "${all_args}" "${default_jobs}")"
 
-	if [[ ${jobs} == "0" ]]; then
+	if [[ "${jobs}" == "0" ]]; then
 		# Zig build system does not allow "-j0", and does not have
-		# option for unlimited parallelism. Pass our  default number
+		# option for unlimited parallelism. Pass our default number
 		# of jobs here.
 		echo "${default_jobs}"
 	else
@@ -241,13 +239,13 @@ zig-build_get_jobs() {
 	fi
 }
 
-# @FUNCTION: zig-build_start_base_args
+# @FUNCTION: zig_init_base_args
 # @DESCRIPTION:
 # Stores basic args for future "ezig build" calls in ZBS_ARGS_BASE.
-# Package manager option is managed by "zig-build_src_prepare",
-# ebuild and user options are added by "zig-build_src_configure".
+# Package manager option is managed by "zig_src_prepare",
+# ebuild and user options are added by "zig_src_configure".
 #
-# This function is used by "zig-build_pkg_setup", and it is neccessary
+# This function is used by "zig_pkg_setup", and it is neccessary
 # that args are available as early as possible, so that ebuilds
 # could use them in steps like "src_unpack" if neccessary, while
 # still having verbosity and amount of jobs from user respected.
@@ -266,11 +264,11 @@ zig-build_get_jobs() {
 # @CODE
 # error: unable to find dynamic system library 'zstd' using strategy 'paths_first'. searched paths: none
 # @CODE
-zig-build_start_base_args() {
-	[[ ${ZBS_ARGS_BASE} ]] && return
+zig_init_base_args() {
+	[[ "${ZBS_ARGS_BASE}" ]] && return
 
 	local crt_dir="${ESYSROOT}/usr/"
-	if [[ ${ZIG_TARGET} == *musl* ]]; then
+	if [[ "${ZIG_TARGET}" == *musl* ]]; then
 		crt_dir+="lib/"
 	else
 		crt_dir+="$(get_libdir)/"
@@ -280,9 +278,10 @@ zig-build_start_base_args() {
 	# TODO maybe add to upstream to use ZON format instead...
 	# Will also help "https://github.com/ziglang/zig/issues/20327",
 	# and hopefully will respect our settings too.
-	cat <<- _EOF_ > "${T}/zig_libc.txt"
+	cat <<- _EOF_ > "${T}/zig_libc.txt" || die "Failed to provide Zig libc info"
 		# Note: they are not prepended by "--sysroot" value,
 		# so repeat it here.
+		# Also, no quotes here, they are interpreted verbatim.
 		include_dir=${ESYSROOT}/usr/include/
 		sys_include_dir=${ESYSROOT}/usr/include/
 		crt_dir=${crt_dir}
@@ -293,20 +292,17 @@ zig-build_start_base_args() {
 		# Haiku only.
 		gcc_dir=
 	_EOF_
-	if [[ ${?} -ne 0 ]]; then
-		die "Failed to create Zig libc installation info file"
-	fi
 
 	declare -g -a ZBS_ARGS_BASE=(
-		-j$(zig-build_get_jobs)
+		-j$(zig_get_jobs)
 		--build-file "${S}/build.zig"
 
-		-Dtarget=${ZIG_TARGET}
-		-Dcpu=${ZIG_CPU}
+		-Dtarget="${ZIG_TARGET}"
+		-Dcpu="${ZIG_CPU}"
 		--release=safe
 
 		--prefix-exe-dir bin/
-		--prefix-lib-dir $(get_libdir)/
+		--prefix-lib-dir "$(get_libdir)/"
 		--prefix-include-dir include/
 
 		# Should be relative path to make other calls easier,
@@ -327,26 +323,26 @@ zig-build_start_base_args() {
 	fi
 }
 
-# @FUNCTION: zig-build_pkg_setup
+# @FUNCTION: zig_pkg_setup
 # @DESCRIPTION:
 # Sets up environmental variables for Zig toolchain
 # and basic args for Zig Build System.
-zig-build_pkg_setup() {
-	[[ ${MERGE_TYPE} != binary ]] || return 0
+zig_pkg_setup() {
+	[[ "${MERGE_TYPE}" != binary ]] || return 0
 
-	zig-toolchain_setup
-	zig-build_start_base_args
+	zig-utils_setup
+	zig_init_base_args
 
 	# Used only by 9999 for now, change in upstream did not appear
 	# in fixed release yet.
-	export PKG_CONFIG="${PKG_CONFIG:-$(tc-getPKG_CONFIG)}"
+	export PKG_CONFIG="${PKG_CONFIG:-"$(tc-getPKG_CONFIG)"}"
 
 	mkdir "${T}/zig-cache/" || die
 	export ZIG_LOCAL_CACHE_DIR="${T}/zig-cache/local/"
 	export ZIG_GLOBAL_CACHE_DIR="${T}/zig-cache/global/"
 }
 
-# @FUNCTION: zig-build_live_fetch
+# @FUNCTION: zig_live_fetch
 # @USAGE: [<args>...]
 # @DESCRIPTION:
 # Fetches packages, if they exist, to the "ZBS_ECLASS_DIR/p/".
@@ -360,20 +356,20 @@ zig-build_pkg_setup() {
 # @CODE
 # src_unpack() {
 # 	# If there are no lazy dependency:
-# 	zig-build_live_fetch
+# 	zig_live_fetch
 #
 # 	# If there are lazy dependencies that can be triggered together:
-# 	zig-build_live_fetch -Denable-wayland -Denable-xwayland
+# 	zig_live_fetch -Denable-wayland -Denable-xwayland
 #
 # 	# If there are 2 lazy dependencies that can't be triggered
 # 	# together in one call because they conflict:
-# 	zig-build_live_fetch -Dmain-backend=opengl
-# 	zig-build_live_fetch -Dmain-backend=vulkan
+# 	zig_live_fetch -Dmain-backend=opengl
+# 	zig_live_fetch -Dmain-backend=vulkan
 # }
 # @CODE
-zig-build_live_fetch() {
+zig_live_fetch() {
 	# This function will likely be called in src_unpack,
-	# before [zig-build_]src_prepare, so this directory might not
+	# before [zig_]src_prepare, so this directory might not
 	# exist yet.
 	mkdir -p "${BUILD_DIR}" > /dev/null || die
 	pushd "${BUILD_DIR}" > /dev/null || die
@@ -394,11 +390,11 @@ zig-build_live_fetch() {
 	popd > /dev/null || die
 }
 
-# @FUNCTION: zig-build_src_unpack
+# @FUNCTION: zig_src_unpack
 # @DESCRIPTION:
 # Unpacks every archive in SRC_URI and ZBS_DEPENDENCIES,
 # in that order.
-zig-build_src_unpack() {
+zig_src_unpack() {
 	# Thanks to Alfred Wingate "parona" for inspiration here:
 	# https://gitlab.com/Parona/parona-overlay/-/blob/874dcfe03116574a33ed51f469cc993e98db1fa2/eclass/zig.eclass
 
@@ -408,13 +404,15 @@ zig-build_src_unpack() {
 	fi
 
 	local zig_deps=()
-	for dependency in ${!ZBS_DEPENDENCIES[@]}; do
+	for dependency in "${!ZBS_DEPENDENCIES[@]}"; do
 		zig_deps+=("${dependency}")
 	done
+
 	# First unpack non-Zig dependencies, so that
 	# tarball with all Git dependencies tarballs is unpacked early.
+	local dist
 	for dist in ${A}; do
-		if has ${dist} "${zig_deps[@]}"; then
+		if has "${dist}" "${zig_deps[@]}"; then
 			continue
 		fi
 		unpack "${dist}"
@@ -422,6 +420,7 @@ zig-build_src_unpack() {
 
 	# Now unpack all Zig dependencies, including those that are
 	# now unpacked from tarball-tarball.
+	local zig_dep
 	for zig_dep in "${zig_deps[@]}"; do
 		# Hide now-spammy hash from stdout
 		ezig fetch --global-cache-dir "${ZBS_ECLASS_DIR}/" \
@@ -430,7 +429,7 @@ zig-build_src_unpack() {
 	einfo "ZBS: ${#zig_deps[@]} dependencies fetched"
 }
 
-# @FUNCTION: zig-build_src_prepare
+# @FUNCTION: zig_src_prepare
 # @DESCRIPTION:
 # Calls default "src_prepare" function, creates BUILD_DIR directory
 # and enables or disables system mode (by adding to ZBS_BASE_ARGS),
@@ -438,7 +437,7 @@ zig-build_src_unpack() {
 #
 # System mode is toggled here and not in "src_unpack" because they
 # could have been fetched by "live_fetch" in live ebuilds instead.
-zig-build_src_prepare() {
+zig_src_prepare() {
 	default_src_prepare
 
 	mkdir -p "${BUILD_DIR}" || die
@@ -451,7 +450,7 @@ zig-build_src_prepare() {
 	# instead.
 	local -a packages=()
 	readarray -d '' -t packages < <(find "${system_dir}" -mindepth 1 \
-		-maxdepth 1 -type d -print0 2> /dev/null || echo -n "")
+		-maxdepth 1 -type d -print0 2> /dev/null)
 	local count="${#packages[@]}"
 
 	if [[ "${count}" -gt 0 ]]; then
@@ -462,7 +461,7 @@ zig-build_src_prepare() {
 	fi
 }
 
-# @FUNCTION: zig-build_src_configure
+# @FUNCTION: zig_src_configure
 # @DESCRIPTION:
 # Creates ZBS_ARGS array which can be used in all future phases,
 # by combining ZBS_ARGS_BASE set previously, my_zbs_args from ebuild,
@@ -470,7 +469,7 @@ zig-build_src_prepare() {
 #
 # Specific flags currently only add support for the cross-compilation.
 # They are likely to be extended in the future.
-zig-build_src_configure() {
+zig_src_configure() {
 	# Handle quoted whitespace.
 	eval "local -a ZBS_ARGS_EXTRA=( ${ZBS_ARGS_EXTRA} )"
 
@@ -492,12 +491,12 @@ zig-build_src_configure() {
 	einfo "${ZBS_ARGS[@]}"
 }
 
-# @FUNCTION: zig-build_src_compile
+# @FUNCTION: zig_src_compile
 # @USAGE: [<args>...]
 # @DESCRIPTION:
 # Calls "ezig build" with previously set ZBS_ARGS.
 # Args passed to this function will be passed after ZBS_ARGS.
-zig-build_src_compile() {
+zig_src_compile() {
 	pushd "${BUILD_DIR}" > /dev/null || die
 
 	local args=( "${ZBS_ARGS[@]}" "${@}" )
@@ -507,7 +506,7 @@ zig-build_src_compile() {
 	popd > /dev/null || die
 }
 
-# @FUNCTION: zig-build_src_test
+# @FUNCTION: zig_src_test
 # @USAGE: [<args>...]
 # @DESCRIPTION:
 # If "test" step exist, calls "ezig build test" with previously set
@@ -515,7 +514,7 @@ zig-build_src_compile() {
 # Args passed to this function will be passed after ZBS_ARGS.
 # Note: currently step detection might give false positives in
 # very rare cases, it will be improved in the future.
-zig-build_src_test() {
+zig_src_test() {
 	pushd "${BUILD_DIR}" > /dev/null || die
 
 	local args=( "${ZBS_ARGS[@]}" "${@}" )
@@ -523,22 +522,23 @@ zig-build_src_test() {
 	# UPSTREAM std.testing.tmpDir and a lot of other functions
 	# do not respect --cache-dir or ZIG_LOCAL_CACHE_DIR:
 	# https://github.com/ziglang/zig/issues/19874
-	mkdir -p "zig-cache/" ".zig-cache/" || die
+	mkdir -p ".zig-cache/" || die
 
 	local found_test_step=false
 
 	local -a steps
-	readarray steps < <(nonfatal ezig build --list-steps "${args[@]}" \
-		|| die "ZBS: listing steps failed")
+	readarray steps < <(nonfatal ezig build --list-steps "${args[@]}" ||
+		die "ZBS: listing steps failed")
 
+	local step
 	for step in "${steps[@]}"; do
 		# UPSTREAM Currently, step name can have any characters in it,
 		# including whitespaces, so splitting names and descriptions
 		# by whitespaces is not enough for some cases.
 		# We probably need something like  "--list-steps names_only".
 		# In practice, almost nobody sets such names.
-		step_name=$(awk '{print $1}' <<< "${step}")
-		if [[ ${step_name} == test ]]; then
+		local step_name="$(awk '{print $1}' <<< "${step}")"
+		if [[ "${step_name}" == test ]]; then
 			found_test_step=true
 			break
 		fi
@@ -546,8 +546,8 @@ zig-build_src_test() {
 
 	if [[ ${found_test_step} == true ]]; then
 		einfo "ZBS: testing with: ${args[@]}"
-		nonfatal ezig build test "${args[@]}" \
-			|| die "ZBS: tests failed"
+		nonfatal ezig build test "${args[@]}" ||
+			die "ZBS: tests failed"
 	else
 		einfo "Test step not found, skipping."
 	fi
@@ -555,18 +555,18 @@ zig-build_src_test() {
 	popd > /dev/null || die
 }
 
-# @FUNCTION: zig-build_src_install
+# @FUNCTION: zig_src_install
 # @USAGE: [<args>...]
 # @DESCRIPTION:
 # Calls "ezig build" with DESTDIR and previously set ZBS_ARGS.
 # Args passed to this function will be passed after ZBS_ARGS.
 # Also installs documentation via "einstalldocs".
-zig-build_src_install() {
+zig_src_install() {
 	pushd "${BUILD_DIR}" > /dev/null || die
 	local args=( "${ZBS_ARGS[@]}" "${@}" )
 	einfo "ZBS: installing with: ${args[@]}"
-	DESTDIR="${D}" nonfatal ezig build "${args[@]}" \
-		|| die "ZBS: installing failed"
+	DESTDIR="${D}" nonfatal ezig build "${args[@]}" ||
+		die "ZBS: installing failed"
 	popd > /dev/null || die
 
 	pushd "${S}" > /dev/null || die
