@@ -9,7 +9,7 @@ LLVM_OPTIONAL=1
 ZIG_SLOT="$(ver_cut 1-2)"
 ZIG_OPTIONAL=1
 
-inherit check-reqs cmake flag-o-matic edo llvm-r1 toolchain-funcs zig-build
+inherit check-reqs cmake flag-o-matic edo llvm-r1 toolchain-funcs zig
 
 DESCRIPTION="A robust, optimal, and maintainable programming language"
 HOMEPAGE="https://ziglang.org/ https://github.com/ziglang/zig/"
@@ -49,7 +49,7 @@ REQUIRED_USE="
 	llvm? ( ${LLVM_REQUIRED_USE} )
 "
 
-# Used by both cmake and zig-build eclass.
+# Used by both "cmake" and "zig" eclasses.
 BUILD_DIR="${WORKDIR}/${P}_build"
 
 # Zig requires zstd and zlib compression support in LLVM, if using LLVM backend.
@@ -74,7 +74,7 @@ IDEPEND="app-eselect/eselect-zig"
 
 DOCS=( "README.md" "doc/build.zig.zon.md" )
 
-# zig-build does not set this for us since we use ZIG_OPTIONAL=1
+# zig.eclass does not set this for us since we use ZIG_OPTIONAL=1
 QA_FLAGS_IGNORED="usr/.*/zig/${PV}/bin/zig"
 
 # Since commit https://github.com/ziglang/zig/commit/e7d28344fa3ee81d6ad7ca5ce1f83d50d8502118
@@ -83,7 +83,7 @@ CHECKREQS_MEMORY="4G"
 
 pkg_setup() {
 	# Skip detecting zig executable.
-	ZIG_EXE="not-applicable" ZIG_VER="${PV}" zig-build_pkg_setup
+	ZIG_EXE="not-applicable" ZIG_VER="${PV}" zig_pkg_setup
 
 	export ZIG_SYS_INSTALL_DEST="${EPREFIX}/usr/$(get_libdir)/zig/${PV}"
 
@@ -107,7 +107,7 @@ src_prepare() {
 	if use llvm; then
 		cmake_src_prepare
 	else
-		# Sync with zig-build_src_prepare
+		# Sync with zig_src_prepare
 		default_src_prepare
 		mkdir -p "${BUILD_DIR}" || die
 		einfo "BUILD_DIR: \"${BUILD_DIR}\""
@@ -126,7 +126,7 @@ src_configure() {
 
 	# Used during bootstrapping. stage1/stage2 have limited functionality
 	# and can't resolve native target, so we pass target in exact form.
-	declare -r -g ZIG_HOST_AS_TARGET=$(zig-toolchain_get_target ${CBUILD:-${CHOST}})
+	declare -r -g ZIG_HOST_AS_TARGET="$(zig-utils_c_env_to_zig_target "${CBUILD:-${CHOST}" "${CFLAGS}"})"
 
 	# Note that if we are building with CMake, "my_zbs_args"
 	# are used only after compiling zig2.
@@ -153,7 +153,7 @@ src_configure() {
 		)
 	fi
 
-	zig-build_src_configure
+	zig_src_configure
 
 	if use llvm; then
 		# Build for native only, it's for zig2 (build-time executable)
@@ -164,7 +164,7 @@ src_configure() {
 
 			-DZIG_TARGET_TRIPLE=native
 			-DZIG_TARGET_MCPU=native
-			-DZIG_HOST_TARGET_TRIPLE=${ZIG_HOST_AS_TARGET}
+			-DZIG_HOST_TARGET_TRIPLE="${ZIG_HOST_AS_TARGET}"
 
 			-DCMAKE_PREFIX_PATH="$(get_llvm_prefix -b)"
 			-DCMAKE_INSTALL_PREFIX="${ZIG_SYS_INSTALL_DEST}"
@@ -185,28 +185,28 @@ src_compile() {
 
 		local native_cc="$(tc-getBUILD_CC)"
 		"${native_cc}" -o bootstrap "${S}/bootstrap.c" || die "Zig's bootstrap.c compilation failed"
-		ZIG_HOST_TARGET_TRIPLE=${ZIG_HOST_AS_TARGET} CC="${native_cc}" edo ./bootstrap
+		ZIG_HOST_TARGET_TRIPLE="${ZIG_HOST_AS_TARGET}" CC="${native_cc}" edo ./bootstrap
 	fi
 
 	cd "${BUILD_DIR}" || die
-	ZIG_EXE="./zig2" zig-build_src_compile --prefix "${BUILD_DIR}/stage3/"
+	ZIG_EXE="./zig2" zig_src_compile --prefix "${BUILD_DIR}/stage3/"
 
 	./stage3/bin/zig env || die "Zig compilation failed"
 
 	if use doc; then
-		ZIG_EXE="./stage3/bin/zig" zig-build_src_compile langref --prefix "${S}/docgen/"
+		ZIG_EXE="./stage3/bin/zig" zig_src_compile langref --prefix "${S}/docgen/"
 	fi
 }
 
 src_test() {
 	cd "${BUILD_DIR}" || die
-	ZIG_EXE="./stage3/bin/zig" zig-build_src_test -Dskip-non-native
+	ZIG_EXE="./stage3/bin/zig" zig_src_test -Dskip-non-native
 }
 
 src_install() {
 	use doc && local HTML_DOCS=( "docgen/doc/langref.html" )
 
-	ZIG_EXE="./zig2" zig-build_src_install --prefix "${ZIG_SYS_INSTALL_DEST}"
+	ZIG_EXE="./zig2" zig_src_install --prefix "${ZIG_SYS_INSTALL_DEST}"
 
 	cd "${D}/${ZIG_SYS_INSTALL_DEST}" || die
 	mv lib/zig/ lib2/ || die
