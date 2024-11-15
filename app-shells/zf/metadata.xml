@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>bratishkaerik@landless-city.net</email>
+		<name>Eric Joldasov</name>
+	</maintainer>
+	<upstream>
+		<bugs-to>https://github.com/natecraddock/zf/issues</bugs-to>
+		<changelog>https://github.com/natecraddock/zf/blob/main/CHANGELOG.md</changelog>
+		<doc lang="en">https://github.com/natecraddock/zf/tree/main/doc</doc>
+		<remote-id type="github">natecraddock/zf</remote-id>
+	</upstream>
+</pkgmetadata>
