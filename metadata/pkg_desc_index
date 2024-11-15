@@ -1,4 +1,5 @@
 app-shells/zf 0.10.2: Command-line fuzzy finder that prioritizes matches on filenames
+dev-lang/zig 0.13.0-r2 9999: A robust, optimal, and maintainable programming language
 dev-util/reuse 4.0.3: Manage license information according to the SPDX standard
 net-wireless/rtl8821au 0_pre20240613: Linux kernel module for USB adapters based on RTL8811AU and RTL8821AU
 net-wireless/rtw88 0_pre20240823: A backport of the Realtek Wifi 5 drivers from the wireless-next repo.
