@@ -133,7 +133,7 @@ src_configure() {
 
 	# Used during bootstrapping. stage1/stage2 have limited functionality
 	# and can't resolve native target, so we pass target in exact form.
-	declare -r -g ZIG_HOST_AS_TARGET="$(zig-utils_c_env_to_zig_target "${CBUILD:-${CHOST}" "${CFLAGS}"})"
+	declare -r -g ZIG_HOST_AS_TARGET="$(zig-utils_c_env_to_zig_target "${CBUILD:-${CHOST}}" "${CFLAGS}"})"
 
 	# Note that if we are building with CMake, "my_zbs_args"
 	# are used only after compiling zig2.
