@@ -1,0 +1,21 @@
+# Enable accessibility support.
+USE="accessibility"
+
+# Enable stuff from "hardened" profile.
+USE="${USE} hardened pic pie"
+
+# Enable LTO and PGO USE-flags where they are still left.
+USE="${USE} lto pgo"
+
+# Enable all targets for QEMU.
+QEMU_SOFTMMU_TARGETS="*"
+QEMU_USER_TARGETS="*"
+
+# Enable more video support.
+USE="${USE} nvenc vaapi vdpau theora x265"
+
+# Enable more audio support.
+USE="${USE} opus"
+
+# Enable more image support.
+USE="${USE} heif webp jpegxl avif"
