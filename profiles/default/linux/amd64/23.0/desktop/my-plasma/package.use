@@ -1,0 +1,5 @@
+# This is useful only for old AMD GPUs.
+media-libs/mesa -opencl
+
+# Enable video thumbnails (for Dolphin etc.)
+kde-apps/thumbnailers video

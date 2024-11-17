@@ -1,5 +1,5 @@
 # Enable accessibility support.
-USE="accessibility"
+USE="accessibility speech flite"
 
 # Enable stuff from "hardened" profile.
 USE="${USE} hardened pic pie"
@@ -11,11 +11,24 @@ USE="${USE} lto pgo"
 QEMU_SOFTMMU_TARGETS="*"
 QEMU_USER_TARGETS="*"
 
+# Enable more acceleration on GPU.
+USE="${USE} nvenc vaapi vdpau cuda opencl"
+
+# General media support.
+USE="${USE} hdri"
+
 # Enable more video support.
-USE="${USE} nvenc vaapi vdpau theora x265"
+USE="${USE} theora x265"
 
 # Enable more audio support.
 USE="${USE} opus"
 
 # Enable more image support.
-USE="${USE} heif webp jpegxl avif"
+USE="${USE} heif webp jpegxl avif raw"
+
+# Enable more book support.
+USE="${USE} markdown mobi djvu epub"
+
+# Enable NVIDIA official drivers, Zink OpenGL-on-Vulkan layer, and
+# Vulkan software rendered.
+VIDEO_CARDS="nvidia zink lavapipe"
