@@ -15,7 +15,7 @@ declare -r -A ZBS_DEPENDENCIES=(
 )
 
 ZIG_SLOT="0.13"
-inherit bash-completion-r1 zig
+inherit shell-completion zig
 
 DESCRIPTION="Command-line fuzzy finder that prioritizes matches on filenames"
 HOMEPAGE="https://github.com/natecraddock/zf"
@@ -47,16 +47,9 @@ src_configure() {
 
 src_install() {
 	zig_src_install
-
-	# bash completions
 	doman doc/zf.1
+
 	dobashcomp complete/zf
-
-	# zsh completions
-	insinto /usr/share/zsh/site-functions
-	doins complete/_zf
-
-	# fish completions
-	insinto /usr/share/fish/vendor_completions.d
-	doins complete/zf.fish
+	dozshcomp complete/_zf
+	dofishcomp complete/zf.fish
 }
