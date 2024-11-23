@@ -32,3 +32,6 @@ USE="${USE} markdown mobi djvu epub"
 # Enable NVIDIA official drivers, Zink OpenGL-on-Vulkan layer, and
 # Vulkan software rendered.
 VIDEO_CARDS="nvidia zink lavapipe"
+
+# More VM support (f.e. for Incus)
+USE="${USE} spice usbredir virtfs"
