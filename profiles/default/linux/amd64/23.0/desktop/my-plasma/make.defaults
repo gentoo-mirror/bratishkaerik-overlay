@@ -29,6 +29,9 @@ USE="${USE} heif webp jpegxl avif raw"
 # Enable more book support.
 USE="${USE} markdown mobi djvu epub"
 
+# Enable more languages support.
+USE="${USE} cjk emoji"
+
 # Enable NVIDIA official drivers, Zink OpenGL-on-Vulkan layer, and
 # Vulkan software rendered.
 VIDEO_CARDS="nvidia zink lavapipe"
