@@ -4,5 +4,6 @@ media-libs/mesa -opencl
 # Enable video thumbnails (for Dolphin etc.)
 kde-apps/thumbnailers video
 
-# Incus VM support
-app-emulation/qemu spice usbredir virtfs
+# Enable more fonts
+media-fonts/fonts-meta ms
+media-gfx/imagemagick corefonts
