@@ -32,6 +32,9 @@ USE="${USE} markdown mobi djvu epub"
 # Enable more languages support.
 USE="${USE} cjk emoji"
 
+# Enable more compression support.
+USE="${USE} zstd zip"
+
 # Enable NVIDIA official drivers, Zink OpenGL-on-Vulkan layer, and
 # Vulkan software rendered.
 VIDEO_CARDS="nvidia zink lavapipe"
