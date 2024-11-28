@@ -10,10 +10,13 @@ TESTS_ECLASS_SEARCH_PATHS+=( "${GENTOO_REPO}"/eclass )
 
 inherit zig-utils
 
-# Set to true if you want to test compilation and running under QEMU.
-# Assuming "zig" is present in path and qemu binfmt is enabled.
-# Programs compiled for CPUs marked with ":no-run" crashed in QEMU.
-if false; then
+# Set ZIG_TEST_COMPILATION env-var to "1" if you want to test binary
+# compilation and running under QEMU. Assumes "zig" is present in PATH
+# and qemu binfmt is enabled.
+#
+# If CPU is marked with ":no-run", it means program compiled for it
+# successfully but crashed when running under QEMU.
+if [[ "${ZIG_TEST_COMPILATION:-0}" -eq 1 ]]; then
 	MY_WORKDIR="$(mktemp -d)"
 	my_cleanup() {
 		popd > /dev/null
@@ -155,7 +158,10 @@ declare -A c_to_zig_map=(
 	[powerpc64le-unknown-linux-gnu]=powerpc64le-linux-gnu
 
 	# ARM big-endian
-	[armbe-unknown-linux-gnueabi]=armeb-linux-gnueabi
+	[armeb-unknown-linux-gnueabi]=armeb-linux-gnueabi
+
+	# https://bugs.gentoo.org/924920
+	[armv7a-unknown-linux-gnueabihf]=arm-linux-gnueabihf
 
 	# ARM to Thumb
 	[arm-unknown-linux-musleabi:"-march=armv7e-m"]=thumb-linux-musleabi
@@ -191,6 +197,9 @@ c_to_zig_map=(
 	["-march=armv6j -mfpu=vfp"]="generic+v6j+vfp2-soft_float"
 	["-march=armv7-a -mfpu=vfpv3-d16"]="generic+v7a+vfp3d16-soft_float"
 	["-march=armv7-a -mfpu=crypto-neon-fp-armv8"]="generic+v7a+crypto+neon+fp_armv8-soft_float"
+
+	# https://bugs.gentoo.org/924920
+	["-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard"]=generic+v7a+vfp3d16-soft_float
 )
 test-convert_c_env_to_zig_cpu c_to_zig_map "${CHOST}"
 tend ${?}
