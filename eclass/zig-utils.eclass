@@ -7,9 +7,9 @@
 # @AUTHOR:
 # Eric Joldasov <bratishkaerik@landless-city.net>
 # @SUPPORTED_EAPIS: 8
-# @BLURB: Prepare Zig toolchain and set environment variables
+# @BLURB: Prepare Zig toolchain and set global variables
 # @DESCRIPTION:
-# Prepare Zig toolchain and set environment variables.
+# Prepare Zig toolchain and set global variables.
 # Supports Zig 0.13+.
 # Does not set any default function, ebuilds must call them manually.
 # Generally, only "zig-utils_setup" is needed.
@@ -19,7 +19,7 @@
 # For ebuilds with ZBS (Zig Build System), it's usually better
 # to inherit zig.eclass instead, as it has default phases-functions.
 
-if [[ ! ${_ZIG_UTILS_ECLASS} ]]; then
+if [[ -z ${_ZIG_UTILS_ECLASS} ]]; then
 _ZIG_UTILS_ECLASS=1
 
 case ${EAPI} in
@@ -69,10 +69,12 @@ inherit edo flag-o-matic linux-info
 # For zig.eclass users: see documentation in zig.eclass
 # instead.
 if [[ ! ${ZIG_OPTIONAL} ]]; then
-	BDEPEND="|| (
-		dev-lang/zig:${ZIG_SLOT}
-		dev-lang/zig-bin:${ZIG_SLOT}
-	)"
+	BDEPEND="
+		|| (
+			dev-lang/zig:${ZIG_SLOT}
+			dev-lang/zig-bin:${ZIG_SLOT}
+		)
+	"
 fi
 
 # @ECLASS_VARIABLE: ZIG_TARGET
@@ -107,8 +109,15 @@ fi
 # intented for host is compiled for cross-platform target, change in
 # build.zig "target" for that executable to be "b.graph.host".
 #
-# In rare cases, if you really need to hardcode ZIG_TARGET, mark it
-# with a clear warning that this user setting is ignored.
+# In rare cases, if you really need to hardcode ZIG_TARGET, use this
+# syntax before calling `zig-utils_setup` (or `zig_pkg_setup`) to
+# allow user override:
+# @CODE
+# pkg_setup() {
+# 	: "${ZIG_TARGET:=aarch64-freestanding-none}"
+# 	zig_pkg_setup
+# }
+# @CODE
 
 # @ECLASS_VARIABLE: ZIG_CPU
 # @DEFAULT_UNSET
@@ -134,11 +143,21 @@ fi
 # @CODE
 #
 # Note for eclass users: it is discouraged to overwrite ZIG_CPU
-# value by ebuilds.  In all cases, if you need to hardcode value for
+# value by ebuilds.  In most cases, if you need to hardcode value for
 # -Dcpu, it's better to change "build.zig" code instead to use
 # appropriate values.  For example, if some build-time executable
 # intented for host is compiled for cross-platform target, change in
 # build.zig "target" for that executable to be "b.graph.host".
+#
+# In rare cases, if you really need to hardcode ZIG_CPU, use this
+# syntax before calling `zig-utils_setup` (or `zig_pkg_setup`) to
+# allow user override:
+# @CODE
+# pkg_setup() {
+# 	: "${ZIG_CPU:=apple_m1}"
+# 	zig_pkg_setup
+# }
+# @CODE
 
 # @ECLASS_VARIABLE: ZIG_EXE
 # @OUTPUT_VARIABLE
@@ -206,7 +225,7 @@ zig-utils_c_env_to_zig_target() {
 				arch=arm
 			fi
 
-			if [[ "${c_arch}" == *eb || "${c_arch}" == *be ]]; then
+			if [[ "${c_arch}" == *eb ]]; then
 				arch+="eb"
 			fi
 			;;
@@ -227,7 +246,7 @@ zig-utils_c_env_to_zig_target() {
 }
 
 # @FUNCTION: zig-utils_c_env_to_zig_cpu
-# @USAGE: <C-style target tuple>
+# @USAGE: <C-style target tuple> <CFLAGS>
 # @DESCRIPTION:
 # Translates C-style target tuple (like CHOST) and CFLAGS to Zig-style
 # target CPU and features.  For full information
@@ -430,10 +449,10 @@ zig-utils_find_installation() {
 
 		# Prefer "dev-lang/zig" over "dev-lang/zig-bin"
 		local candidate_path
-		for candidate_path in "${base_path}/"zig{,-bin}"-${selected_ver}"; do
+		for candidate_path in "${base_path}"/zig{,-bin}-"${selected_ver}"; do
 			if [[ -x "${candidate_path}" ]]; then
 				selected_path="${candidate_path}"
-				break 2;
+				break 2
 			fi
 		done
 	done
@@ -442,8 +461,8 @@ zig-utils_find_installation() {
 		die "Could not find (suitable) Zig at \"${base_path}\""
 	fi
 
-	export ZIG_EXE="${selected_path}"
-	export ZIG_VER="${selected_ver}"
+	declare -g ZIG_EXE="${selected_path}"
+	declare -g ZIG_VER="${selected_ver}"
 	# Sanity check, comment from upstream:
 	# > Check libc++ linkage to make sure Zig was built correctly,
 	# > but only for "env" and "version" to avoid affecting the
@@ -456,7 +475,7 @@ zig-utils_find_installation() {
 # @FUNCTION: zig-utils_setup
 # @DESCRIPTION:
 # Checks if running Linux kernel version is supported by Zig.
-# Populates ZIG_TARGET, ZIG_CPU, ZIG_EXE and ZIG_VER environment
+# Populates ZIG_TARGET, ZIG_CPU, ZIG_EXE and ZIG_VER global
 # variables with detected values, or, if user set them already,
 # leaves as-is.
 zig-utils_setup() {
@@ -473,18 +492,12 @@ zig-utils_setup() {
 	else
 		: "${ZIG_TARGET:=native}"
 	fi
-	export ZIG_CPU ZIG_TARGET
+	declare -g ZIG_CPU ZIG_TARGET
 
 	einfo "ZIG_EXE:    \"${ZIG_EXE}\""
 	einfo "ZIG_VER:     ${ZIG_VER}"
 	einfo "ZIG_TARGET:  ${ZIG_TARGET}"
 	einfo "ZIG_CPU:     ${ZIG_CPU}"
-
-	local minimum_linux_kernel="4.19" # For Zig 0.13+
-	if use kernel_linux && kernel_is -lt ${minimum_linux_kernel//./ }; then
-		ewarn "Unsupported Linux kernel version for Zig ${ZIG_SLOT}:"
-		ewarn "Expected >=${minimum_linux_kernel}, found ${KV_FULL}"
-	fi
 }
 
 # @FUNCTION: ezig
@@ -494,8 +507,12 @@ zig-utils_setup() {
 # if command exits with error.  Respects `nonfatal`.
 #
 # Always disables progress tree.  By default enables ANSI escape codes
-# (colours, etc.), user can set NO_COLOR environment variable to
+# (colors, etc.), user can set NO_COLOR environment variable to
 # disable them.
+#
+# Note that color support also determines how compile errors will be
+# printed: source code lines and reference traces are not available
+# when colors are disabled.
 ezig() {
 	# Sync description above and comments below with upstream's
 	# "std.io.tty.detectConfig".
@@ -506,11 +523,16 @@ ezig() {
 	fi
 
 	# Progress tree is helpful indicator in TTY, but unfortunately
-	# they make Portage logs harder to read in plaintext. We pass
-	# "TERM=dumb" here to have clean logs, and CLICOLOR_FORCE to
-	# preserve colors.
-	# User's NO_COLOR takes precendence over this.
-	TERM=dumb CLICOLOR_FORCE=1 "${ZIG_EXE}" "${@}" ||
-		die -n "Failed to run command: ${ZIG_EXE} ${@}"
+	# they make Portage logs harder to read in plaintext.
+	#
+	# We don't have global toggle for all Zig commands to disable
+	# progress tree, however we can emulate this using 2 steps.
+
+	# Disable progress tree and colors. Errors are now less detailed.
+	local -x TERM=dumb
+	# Re-enable colors. Errors are now yet again detailed for reading.
+	local -x CLICOLOR_FORCE=1
+	# User's NO_COLOR has more priority and can disable colors again.
+	"${ZIG_EXE}" "${@}" || die -n "Failed to run command: ${ZIG_EXE} ${@}"
 }
 fi

@@ -46,7 +46,7 @@
 # policy is stricter, all 3 options are required and should not
 # be ignored, with no exceptions.
 
-if [[ ! ${_ZIG_ECLASS} ]]; then
+if [[ -z ${_ZIG_ECLASS} ]]; then
 _ZIG_ECLASS=1
 
 case ${EAPI} in
@@ -225,7 +225,7 @@ _zig_set_zbs_uris
 # Returns number of jobs from ZBS_ARGS_EXTRA or MAKEOPTS.
 # If there is none, defaults to number of available processing units.
 zig_get_jobs() {
-	local all_args="${ZBS_ARGS_EXTRA} ${MAKEOPTS}"
+	local all_args="${MAKEOPTS} ${ZBS_ARGS_EXTRA}"
 	local default_jobs="$(get_nproc)"
 	local jobs="$(makeopts_jobs "${all_args}" "${default_jobs}")"
 
@@ -267,13 +267,6 @@ zig_get_jobs() {
 zig_init_base_args() {
 	[[ "${ZBS_ARGS_BASE}" ]] && return
 
-	local crt_dir="${ESYSROOT}/usr/"
-	if [[ "${ZIG_TARGET}" == *musl* ]]; then
-		crt_dir+="lib/"
-	else
-		crt_dir+="$(get_libdir)/"
-	fi
-
 	# Sync with the output format of `zig libc`.
 	# TODO maybe add to upstream to use ZON format instead...
 	# Will also help "https://github.com/ziglang/zig/issues/20327",
@@ -284,7 +277,7 @@ zig_init_base_args() {
 		# Also, no quotes here, they are interpreted verbatim.
 		include_dir=${ESYSROOT}/usr/include/
 		sys_include_dir=${ESYSROOT}/usr/include/
-		crt_dir=${crt_dir}
+		crt_dir=${ESYSROOT}/usr/$(get_libdir)/
 		# Windows with MSVC only.
 		msvc_lib_dir=
 		# Windows with MSVC only.
@@ -333,11 +326,16 @@ zig_pkg_setup() {
 	zig-utils_setup
 	zig_init_base_args
 
-	# Used only by 9999 for now, change in upstream did not appear
-	# in fixed release yet.
-	export PKG_CONFIG="${PKG_CONFIG:-"$(tc-getPKG_CONFIG)"}"
-
 	mkdir "${T}/zig-cache/" || die
+
+	# Environment variables set by this eclass.
+
+	# Used by Zig Build System to find `pkg-config`.
+	# UPSTREAM Used only by 9999 for now, should land in future
+	# 0.14 release.
+	export PKG_CONFIG="${PKG_CONFIG:-"$(tc-getPKG_CONFIG)"}"
+	# Used by whole Zig toolchain (most of the sub-commands)
+	# to find local and global cache directories.
 	export ZIG_LOCAL_CACHE_DIR="${T}/zig-cache/local/"
 	export ZIG_GLOBAL_CACHE_DIR="${T}/zig-cache/global/"
 }
@@ -385,7 +383,7 @@ zig_live_fetch() {
 
 	einfo "ZBS: live-fetching with:"
 	einfo "${args[@]}"
-	ezig build --fetch "${args[@]}"
+	ezig build --help "${args[@]}" > /dev/null
 
 	popd > /dev/null || die
 }
@@ -426,14 +424,13 @@ zig_src_unpack() {
 		ezig fetch --global-cache-dir "${ZBS_ECLASS_DIR}/" \
 			"${DISTDIR}/${zig_dep}" > /dev/null
 	done
-	einfo "ZBS: ${#zig_deps[@]} dependencies fetched"
+	einfo "ZBS: ${#zig_deps[@]} dependencies unpacked"
 }
 
 # @FUNCTION: zig_src_prepare
 # @DESCRIPTION:
 # Calls default "src_prepare" function, creates BUILD_DIR directory
-# and enables or disables system mode (by adding to ZBS_BASE_ARGS),
-# depending on how many packages there are.
+# and enables system mode (by adding to ZBS_BASE_ARGS).
 #
 # System mode is toggled here and not in "src_unpack" because they
 # could have been fetched by "live_fetch" in live ebuilds instead.
@@ -444,21 +441,8 @@ zig_src_prepare() {
 	einfo "BUILD_DIR: \"${BUILD_DIR}\""
 
 	local system_dir="${ZBS_ECLASS_DIR}/p/"
-
-	# We are using directories.len instead of ZBS_DEPENDENCIES.len
-	# because ebuild might have fetched packages using live_fetch
-	# instead.
-	local -a packages=()
-	readarray -d '' -t packages < <(find "${system_dir}" -mindepth 1 \
-		-maxdepth 1 -type d -print0 2> /dev/null)
-	local count="${#packages[@]}"
-
-	if [[ "${count}" -gt 0 ]]; then
-		einfo "ZBS: system mode enabled, ${count} packages found"
-		ZBS_ARGS_BASE+=( --system "${system_dir}" )
-	else
-		einfo "ZBS: no packages found, no need to enable system mode"
-	fi
+	mkdir -p "${system_dir}" || die
+	ZBS_ARGS_BASE+=( --system "${system_dir}" )
 }
 
 # @FUNCTION: zig_src_configure
@@ -522,7 +506,7 @@ zig_src_test() {
 	# UPSTREAM std.testing.tmpDir and a lot of other functions
 	# do not respect --cache-dir or ZIG_LOCAL_CACHE_DIR:
 	# https://github.com/ziglang/zig/issues/19874
-	mkdir -p ".zig-cache/" || die
+	mkdir ".zig-cache/" || die
 
 	local found_test_step=false
 
