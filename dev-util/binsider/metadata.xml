@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>bratishkaerik@landless-city.net</email>
+		<name>Eric Joldasov</name>
+	</maintainer>
+	<upstream>
+		<bugs-to>https://github.com/orhun/binsider/issues</bugs-to>
+		<changelog>https://github.com/orhun/binsider/blob/main/CHANGELOG.md</changelog>
+		<doc lang="en">https://binsider.dev/getting-started/</doc>
+		<remote-id type="github">orhun/binsider</remote-id>
+	</upstream>
+</pkgmetadata>
