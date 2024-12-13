@@ -288,7 +288,6 @@ zig_init_base_args() {
 
 	declare -g -a ZBS_ARGS_BASE=(
 		-j$(zig_get_jobs)
-		--build-file "${S}/build.zig"
 
 		-Dtarget="${ZIG_TARGET}"
 		-Dcpu="${ZIG_CPU}"
@@ -344,6 +343,7 @@ zig_pkg_setup() {
 # @USAGE: [<args>...]
 # @DESCRIPTION:
 # Fetches packages, if they exist, to the "ZBS_ECLASS_DIR/p/".
+# Adds build file path to ZBS_BASE_ARGS.
 # If you have some lazy dependency which is not triggered in default
 # configuration, pass options like you would pass them for regular
 # "ezig build".  Try to cover all of them before "src_configure".
@@ -372,6 +372,8 @@ zig_live_fetch() {
 	mkdir -p "${BUILD_DIR}" > /dev/null || die
 	pushd "${BUILD_DIR}" > /dev/null || die
 
+	ZBS_ARGS_BASE+=( --build-file "${S}/build.zig" )
+
 	local args=(
 		"${ZBS_ARGS_BASE[@]}"
 
@@ -391,10 +393,12 @@ zig_live_fetch() {
 # @FUNCTION: zig_src_unpack
 # @DESCRIPTION:
 # Unpacks every archive in SRC_URI and ZBS_DEPENDENCIES,
-# in that order.
+# in that order.  Adds build file path to ZBS_BASE_ARGS.
 zig_src_unpack() {
 	# Thanks to Alfred Wingate "parona" for inspiration here:
 	# https://gitlab.com/Parona/parona-overlay/-/blob/874dcfe03116574a33ed51f469cc993e98db1fa2/eclass/zig.eclass
+
+	ZBS_ARGS_BASE+=( --build-file "${S}/build.zig" )
 
 	if [[ "${#ZBS_DEPENDENCIES_SRC_URI}" -eq 0 ]]; then
 		default_src_unpack
@@ -410,10 +414,9 @@ zig_src_unpack() {
 	# tarball with all Git dependencies tarballs is unpacked early.
 	local dist
 	for dist in ${A}; do
-		if has "${dist}" "${zig_deps[@]}"; then
-			continue
+		if ! has "${dist}" "${zig_deps[@]}"; then
+			unpack "${dist}"
 		fi
-		unpack "${dist}"
 	done
 
 	# Now unpack all Zig dependencies, including those that are
@@ -442,7 +445,11 @@ zig_src_prepare() {
 
 	local system_dir="${ZBS_ECLASS_DIR}/p/"
 	mkdir -p "${system_dir}" || die
-	ZBS_ARGS_BASE+=( --system "${system_dir}" )
+	ZBS_ARGS_BASE+=(
+		# Disable network access after ensuring all dependencies
+		# are unpacked (by "src_unpack" or "live_fetch")
+		--system "${system_dir}"
+	)
 }
 
 # @FUNCTION: zig_src_configure
@@ -508,27 +515,15 @@ zig_src_test() {
 	# https://github.com/ziglang/zig/issues/19874
 	mkdir ".zig-cache/" || die
 
-	local found_test_step=false
-
-	local -a steps
-	readarray steps < <(nonfatal ezig build --list-steps "${args[@]}" ||
-		die "ZBS: listing steps failed")
-
-	local step
-	for step in "${steps[@]}"; do
-		# UPSTREAM Currently, step name can have any characters in it,
-		# including whitespaces, so splitting names and descriptions
-		# by whitespaces is not enough for some cases.
-		# We probably need something like  "--list-steps names_only".
-		# In practice, almost nobody sets such names.
-		local step_name="$(awk '{print $1}' <<< "${step}")"
-		if [[ "${step_name}" == test ]]; then
-			found_test_step=true
-			break
-		fi
-	done
-
-	if [[ ${found_test_step} == true ]]; then
+	# UPSTREAM Currently, step name can have any characters in it,
+	# including whitespaces, so splitting names and descriptions
+	# by whitespaces is not enough for some cases.
+	# We probably need something like  "--list-steps names_only".
+	# In practice, almost nobody sets such names.
+	if grep -q '^[ ]*test[ ]' < <(
+		nonfatal ezig build --list-steps "${args[@]}" ||
+			die "ZBS: listing steps failed"
+	); then
 		einfo "ZBS: testing with: ${args[@]}"
 		nonfatal ezig build test "${args[@]}" ||
 			die "ZBS: tests failed"
@@ -553,9 +548,7 @@ zig_src_install() {
 		die "ZBS: installing failed"
 	popd > /dev/null || die
 
-	pushd "${S}" > /dev/null || die
 	einstalldocs
-	popd > /dev/null || die
 }
 
 fi

@@ -61,9 +61,9 @@ BUILD_DIR="${WORKDIR}/${P}_build"
 DEPEND="
 	llvm? (
 		$(llvm_gen_dep '
-			sys-devel/clang:${LLVM_SLOT}
-			sys-devel/lld:${LLVM_SLOT}
-			sys-devel/llvm:${LLVM_SLOT}[zstd]
+			llvm-core/clang:${LLVM_SLOT}
+			llvm-core/lld:${LLVM_SLOT}
+			llvm-core/llvm:${LLVM_SLOT}[zstd]
 		')
 	)
 "
@@ -109,7 +109,7 @@ src_unpack() {
 		if use verify-sig; then
 			verify-sig_verify_detached "${DISTDIR}"/${P}.tar.xz{,.minisig}
 		fi
-		default_src_unpack
+		zig_src_unpack
 	fi
 }
 
