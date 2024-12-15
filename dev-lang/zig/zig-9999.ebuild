@@ -102,8 +102,8 @@ src_unpack() {
 		if use verify-sig; then
 			verify-sig_verify_detached "${DISTDIR}"/${P}.tar.xz{,.minisig}
 		fi
-		zig_src_unpack
 	fi
+	zig_src_unpack
 }
 
 src_prepare() {
