@@ -5,6 +5,9 @@
 		<email>bratishkaerik@landless-city.net</email>
 		<name>Eric Joldasov</name>
 	</maintainer>
+	<use>
+		<flag name="dynamic-analysis">Enable the dynamic analysis feature</flag>
+	</use>
 	<upstream>
 		<bugs-to>https://github.com/orhun/binsider/issues</bugs-to>
 		<changelog>https://github.com/orhun/binsider/blob/main/CHANGELOG.md</changelog>
